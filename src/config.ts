@@ -15,7 +15,7 @@ export const siteConfig: SiteConfig = {
     fixed: false,     // Hide the theme color picker for visitors
   },
   banner: {
-    enable: false,
+    enable: true,
     src: 'assets/images/demo-banner.png',   // Relative to the /src directory. Relative to the /public directory if it starts with '/'
     position: 'center',      // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
     credit: {
@@ -53,7 +53,7 @@ export const profileConfig: ProfileConfig = {
   links: [
     {
       name: 'Mastodon',
-      icon: 'mdi:mastodon',       // Visit https://icones.js.org/ for icon codes
+      icon: 'logos:mastodon-icon',       // Visit https://icones.js.org/ for icon codes
                                         // You will need to install the corresponding icon set if it's not already included
                                         // `pnpm add @iconify-json/<icon-set-name>`
       url: 'https://jiong.us/@sun',
