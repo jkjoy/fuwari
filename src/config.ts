@@ -52,18 +52,6 @@ export const profileConfig: ProfileConfig = {
   bio: '曾梦想仗剑走天涯.',
   links: [
     {
-      name: 'Mastodon',
-      icon: 'logos:mastodon-icon',       // Visit https://icones.js.org/ for icon codes
-                                        // You will need to install the corresponding icon set if it's not already included
-                                        // `pnpm add @iconify-json/<icon-set-name>`
-      url: 'https://jiong.us/@sun',
-    },
-    {
-      name: 'QQ',
-      icon: 'icon-park-outline:tencent-qq',
-      url: 'https://122790336.qzone.qq.com',
-    },
-    {
       name: 'GitHub',
       icon: 'fa6-brands:github',
       url: 'https://github.com/jkjoy',
