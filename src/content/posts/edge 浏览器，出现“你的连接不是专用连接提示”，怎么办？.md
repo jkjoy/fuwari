@@ -4,7 +4,7 @@ published: 2022-07-08
 description: 这篇文章介绍了在遇到浏览器安全警告时的一种解决方法。用户需要将键盘切换到英文输入模式，刷新页面，点击页面任意位置，然后按下特定的按键序列“thisisunsafe”。完成这些步骤后，页面会自动刷新，从而允许用户正常访问受限的网页。
 tags: ['edge']
 category: 分享
-slug: edge-browser,-"your-connection-is-not-a-special-connection-prompt",-what-should-i-do?
+slug: edge-browser
 draft: false
 ---
 
