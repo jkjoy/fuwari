@@ -1,0 +1,2286 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>平淡生活</title><description>退休前的牛马生活</description><link>https://blog.ittst.com/</link><language>zh_CN</language><item><title>从Hexo到Astro</title><link>https://blog.ittst.com/posts/from-hexo-to-astro/</link><guid isPermaLink="true">https://blog.ittst.com/posts/from-hexo-to-astro/</guid><description>本文简单讲述了如何从从Hexo到Astro的过程,并使用脚本转换Front-matter</description><pubDate>Mon, 28 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;很多人在向&lt;code&gt;Astro&lt;/code&gt;转移,咱也跟风一波.
+主要是很喜欢&lt;code&gt;fuwari&lt;/code&gt;的这个主题模板,曾经也移植到了&lt;code&gt;Typecho&lt;/code&gt;平台.&lt;/p&gt;
+&lt;h2&gt;步骤&lt;/h2&gt;
+&lt;h3&gt;安装&lt;code&gt;Astro&lt;/code&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;从这个模板生成一个新的存储库或分叉这个存储库。
+https://github.com/saicaca/fuwari/generate&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;要在本地编辑你的博客，克隆你的存储库，运行&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;pnpm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;pnpm add sharp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;安装依赖项。如果你没有安装pnpm 则执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install-g pnpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;编辑配置文件&lt;code&gt;src/config.ts&lt;/code&gt;以自定义你的博客。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;创建一个新帖子
+运行&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;pnpm new-post &amp;lt;filename&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;并在&lt;code&gt;src/content/post/&lt;/code&gt;中进行编辑。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;按照指南将你的博客部署到&lt;code&gt;Vercel&lt;/code&gt;、&lt;code&gt;Netlify&lt;/code&gt;、&lt;code&gt;GitHub Pages&lt;/code&gt;等。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;部署前需要在&lt;code&gt;astro.config.mjs&lt;/code&gt;中编辑站点配置。&lt;/p&gt;
+&lt;h3&gt;迁移&lt;/h3&gt;
+&lt;p&gt;由于&lt;code&gt;HEXO&lt;/code&gt;和&lt;code&gt;Astro&lt;/code&gt;的&lt;code&gt;Front-matter&lt;/code&gt;存在差异会导致无法正常生成页面
+所以就利用&lt;code&gt;deepseek&lt;/code&gt;写了个&lt;code&gt;python&lt;/code&gt;的脚本用以实现以下功能&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;自动生成slug 利用谷歌翻译&lt;/li&gt;
+&lt;li&gt;自动更改文件名为文章名. 这个是历史遗留问题.从&lt;code&gt;wordpress&lt;/code&gt;转过来时留下的.&lt;/li&gt;
+&lt;li&gt;自动更改&lt;code&gt;date&lt;/code&gt;为&lt;code&gt;published&lt;/code&gt;.由于hexo的使用过程中有很多种譬如时间戳 譬如 YYYY-MM-DD这一种在HEXO下本来兼容的现在到了&lt;code&gt;Astro&lt;/code&gt;下就都报错了.如果出现无法转换则使用默认日期.避免转换过程中出现中断.&lt;/li&gt;
+&lt;li&gt;更改&lt;code&gt;category&lt;/code&gt; 与 &lt;code&gt;tags&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;https://gist.github.com/jkjoy/459deed2048a432f8147abde2a334082&lt;/p&gt;
+&lt;p&gt;脚本 122 行&lt;code&gt;posts_dir = &apos;_posts&apos;&lt;/code&gt;为hexo文章路径.&lt;/p&gt;
+&lt;p&gt;把转换好的文章 复制进 &lt;code&gt;src/content/post/&lt;/code&gt; 下.&lt;/p&gt;
+&lt;h3&gt;上传&lt;/h3&gt;
+&lt;p&gt;可以上传到&lt;code&gt;Vercel&lt;/code&gt;、&lt;code&gt;Netlify&lt;/code&gt;、&lt;code&gt;GitHub Pages&lt;/code&gt; 这些都不赘述了.&lt;/p&gt;
+&lt;p&gt;玩过&lt;code&gt;Hexo&lt;/code&gt;基本都知道怎么操作了&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Astro&lt;/code&gt;的&lt;code&gt;Front-matter&lt;/code&gt;太骚了.&lt;/p&gt;
+&lt;p&gt;几乎每个模板的定义还不一样.&lt;/p&gt;
+</content:encoded></item><item><title>LEDE 软路由安装“koolss”离线插件包提示含非法关键字的解决方法</title><link>https://blog.ittst.com/posts/lede-soft-routing-installation-koolss-offline-plug--in-package-prompts-to-solve-illegal-keywords/</link><guid isPermaLink="true">https://blog.ittst.com/posts/lede-soft-routing-installation-koolss-offline-plug--in-package-prompts-to-solve-illegal-keywords/</guid><description>这篇文章介绍了如何通过SSH登录到软路由，并指导用户安装一个名为koolss的科学上网插件。具体步骤包括下载插件文件，其链接为[https://blog-1312096806.cos.ap-guangzhou.myqcloud.com/halo/koolss_2.2.2.tar.gz]。</description><pubDate>Thu, 10 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;用SSH登录软路由&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh root@192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后输入&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sed -i &apos;s/\tdetect_package/\t# detect_package/g&apos; /koolshare/scripts/ks_tar_install.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再安装科学上网插件即可&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog-1312096806.cos.ap-guangzhou.myqcloud.com/halo/koolss_2.2.2.tar.gz&quot;&gt;koolss&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>给Memos添加Artalk评论</title><link>https://blog.ittst.com/posts/add-artalk-comments-to-memos/</link><guid isPermaLink="true">https://blog.ittst.com/posts/add-artalk-comments-to-memos/</guid><description>这篇文章介绍了如何为Memos v0.16.1版本添加Twikoo评论功能，并提供了自定义脚本和样式的更新说明。文章中包括了具体的代码替换步骤，如将’.resource-wrapper’替换为’.gap-2’或’.memo-wrapper’，以及如何隐藏评论数的操作指南。此外，还提到了适用于Memos 0.15.1版本以下的更新提醒。</description><pubDate>Thu, 10 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;上文提到&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;/2023/507a5d86.html&quot;&gt;给Memos添加Twikoo评论&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;2023.10.23更新以适用于memos v0.16.1版本
+把&apos;.resource-wrapper&apos;替换为&apos;.gap-2&apos;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2023.10.17更新memos0.16版本&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;自定义脚本&lt;/h2&gt;
+&lt;p&gt;把&apos;.resource-wrapper&apos;替换为&apos;.memo-wrapper&apos;&lt;/p&gt;
+&lt;h2&gt;自定义样式&lt;/h2&gt;
+&lt;p&gt;隐藏评论数&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.text-sm.text-gray-500.ml-1{display:none !important;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;2023.9.26更新提醒:适用于 memos 0.15.1版本以下&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;自定义脚本&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;// 用 JS 向页面中插入 JS
+function addArtalkJS() { 
+    var memosArtalk = document.createElement(&quot;script&quot;);
+    memosArtalk.src = `https://unpkg.com/artalk/dist/Artalk.js`;
+    var artakPos = document.getElementsByTagName(&quot;script&quot;)[0];
+    artakPos.parentNode.insertBefore(memosArtalk, artakPos);
+};
+// div
+function startArtalk() {
+    start = setInterval(function(){
+        var artalkDom = document.getElementById(&apos;Comments&apos;) || &apos;&apos;;
+        var memoAt = document.querySelector(&apos;.memo-wrapper&apos;) || &apos;&apos;;
+        var memoLoading = document.querySelector(&apos;.action-button-container&apos;) || &apos;&apos;;
+        var memoLoadingA = document.querySelector(&apos;.action-button-container a&apos;) || &apos;&apos;;
+        if(window.location.href.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot; &amp;amp;&amp;amp; memoLoadingA){
+        memoLoading.innerHTML = &quot;评论加载中……&quot;
+        }
+        if(window.location.href.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot; &amp;amp;&amp;amp; !artalkDom){
+            addArtalkJS()
+            if(memoAt){
+                clearInterval(start)
+                var cssLink = document.createElement(&quot;link&quot;);
+                cssLink.rel = &quot;stylesheet&quot;;
+                cssLink.href = &quot;https://unpkg.com/artalk/dist/Artalk.css&quot;;
+                document.head.appendChild(cssLink);
+                memoAt.insertAdjacentHTML(&apos;afterend&apos;, &apos;&amp;lt;div id=&quot;Comments&quot;&amp;gt;&amp;lt;/div&amp;gt;&apos;);
+                setTimeout(function() {
+                    Artalk.init({
+                        el: &apos;#Comments&apos;,
+                        pageKey: location.pathname,
+                        pageTitle: document.title,
+                        server: &apos;https://artalk.loliko.cn&apos;,
+                        site: &apos;memos&apos;,
+                        darkMode: &apos;auto&apos;
+                    });
+                    Artalk.on(&apos;list-loaded&apos;, function() {
+                        // console.log(&apos;评论加载完成&apos;);
+                        memoLoading.innerHTML = &apos;&apos;
+                        startArtalk();
+                    });
+                }, 1000);
+            }
+        }
+        //console.log(window.location.href);
+    }, 1000)
+}
+startArtalk();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;自定义样式&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;a.time-text:after { content: &apos;   评论 💬 &apos;; }
+.atk-main-editor { margin-top: 20px; }
+
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>给Memos添加Twikoo评论</title><link>https://blog.ittst.com/posts/add-twikoo-comments-to-memos/</link><guid isPermaLink="true">https://blog.ittst.com/posts/add-twikoo-comments-to-memos/</guid><description>这篇文章介绍了如何更新和自定义脚本以适应不同版本的memos应用。文章提到了2023年10月23日对脚本的更新，使其适用于memos v0.16.1版本，以及之前的几次更新。此外，文章还提到了由于官方已经添加了评论图标，因此不再需要通过CSS添加图标。最后，文章指出了在memos升级到0.15.1版本后，某些自定义脚本无法使用的情况。</description><pubDate>Thu, 10 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;代码来自于@&lt;a href=&quot;https://immmmm.com/memos-with-twikoo/&quot;&gt;林木木&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2023.10.23更新脚本以适用于memos v0.16.1&lt;/p&gt;
+&lt;h2&gt;自定义脚本&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;// Memos v0.16.1 单条页面插入 Twikoo 评论
+var twikooENV = &apos;https://你的.com/&apos;
+function addTwikooJS() { 
+  var memosTwikoo = document.createElement(&quot;script&quot;);
+  memosTwikoo.src = `https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js`;
+  var tws = document.getElementsByTagName(&quot;script&quot;)[0];
+  tws.parentNode.insertBefore(memosTwikoo, tws);
+};
+function startTwikoo() {
+  startTW = setInterval(function(){
+    var nowHref = window.location.href;
+    var twikooDom = document.querySelector(&apos;#twikoo&apos;) || &apos;&apos;;
+    if( nowHref.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot;){
+      if(!twikooDom){
+        addTwikooJS()
+        setTimeout(function() {
+          var memoTw = document.querySelector(&apos;.gap-2&apos;) || &apos;&apos;;
+          memoTw.insertAdjacentHTML(&apos;afterend&apos;, &apos;&amp;lt;div id=&quot;mtcomment&quot;&amp;gt;&amp;lt;/div&amp;gt;&apos;);
+          twikoo.init({
+            envId: twikooENV,
+            el: &apos;#mtcomment&apos;,
+            path: nowHref.replace(/^.*=?(http.*\/m\/[0-9]+).*$/,&apos;$1&apos;),
+            onCommentLoaded: function () {
+              startTwikoo();
+            }
+          })
+        }, 1500)
+      }else{
+        clearInterval(startTW)
+      }
+    }
+  }, 2000)
+}
+startTwikoo();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;2023.10.17更新脚本&lt;/p&gt;
+&lt;h2&gt;自定义脚本&lt;/h2&gt;
+&lt;p&gt;适用于0.16版本&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;//Memos v0.16 添加 Twikoo 评论 v2023.10.06
+var twikooENV = &apos;&apos;  //你的 https://xxxx/
+function addTwikooJS() { 
+  var memosTwikoo = document.createElement(&quot;script&quot;);
+  memosTwikoo.src = `https://cdn.staticfile.org/twikoo/1.6.22/twikoo.all.min.js`;
+  var tws = document.getElementsByTagName(&quot;script&quot;)[0];
+  tws.parentNode.insertBefore(memosTwikoo, tws);
+};
+function startTwikoo() {
+  startTW = setInterval(function(){ //定时执行 1秒/次
+    var nowHref = window.location.href;
+    var twikooDom = document.querySelector(&apos;#twikoo&apos;) || &apos;&apos;;
+    if( nowHref.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot;){//单条页面
+      if(!twikooDom){
+        //console.log(&apos;评论未加载&apos;);
+        addTwikooJS() //加载评论 js
+        setTimeout(function() { //延迟 1秒 执行
+          var memoTw = document.querySelector(&apos;.resource-wrapper&apos;) || &apos;&apos;;
+          memoTw.insertAdjacentHTML(&apos;afterend&apos;, &apos;&amp;lt;div id=&quot;mtcomment&quot;&amp;gt;&amp;lt;/div&amp;gt;&apos;);
+          twikoo.init({
+            envId: twikooENV,
+            el: &apos;#mtcomment&apos;,
+            path: nowHref.replace(/^.*=?(http.*\/m\/[0-9]+).*$/,&apos;$1&apos;), //v2023.08.09 正则更新
+            onCommentLoaded: function () {
+              startTwikoo()
+              //console.log(&apos;再次开启定时执行&apos;);
+            }
+          })
+        }, 900)
+      }else{
+        //console.log(&apos;清除定时执行&apos;);
+        clearInterval(startTW)
+      }
+    }
+  }, 2000)
+}
+startTwikoo();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于官方已经有评论图标所以CSS不再添加图标&lt;/p&gt;
+&lt;p&gt;2023.9.26 更新.memos升级0.15.1版本后以下无法使用&lt;/p&gt;
+&lt;h2&gt;自定义脚本&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;//添加 twikoo 评论 v2023.06.10
+var twikooENV = &apos;https://twikoo.jiong.us/&apos;
+function addTwikooJS() { 
+  var memosTwikoo = document.createElement(&quot;script&quot;);
+  memosTwikoo.src = `https://cdn.staticfile.org/twikoo/1.6.16/twikoo.all.min.js`;
+  var tws = document.getElementsByTagName(&quot;script&quot;)[0];
+  tws.parentNode.insertBefore(memosTwikoo, tws);
+};
+function addComIcon(){
+  var memoTwIcons = document.querySelectorAll(&apos;.time-text&apos;) || &apos;&apos;;
+  if(memoTwIcons){
+    for(var i=0;i &amp;lt; memoTwIcons.length;i++){
+      //if(memoTwIcon[i].hasChildNodes == false){
+        memoTwIcons[i].insertAdjacentHTML(&apos;afterbegin&apos;, &apos;&amp;lt;div class=&quot;twicon&quot;&amp;gt;&amp;lt;svg class=&quot;icon&quot; viewBox=&quot;0 0 1024 1024&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot;&amp;gt;&amp;lt;path d=&quot;M896 138.667H128c-38.4 0-64 25.6-64 64v544c0 38.4 25.6 64 64 64h128v128c83.2 0 166.4-44.8 256-128h384c38.4 0 64-25.6 64-64v-544c0-38.4-25.6-64-64-64zm0 608H486.4l-19.2 19.2c-51.2 51.2-102.4 83.2-147.2 96v-115.2H128v-544h768v544z&quot; fill=&quot;#8a8a8a&quot;/&amp;gt;&amp;lt;path d=&quot;M256 477.867a64 64 0 1 0 128 0 64 64 0 1 0-128 0zM448 477.867a64 64 0 1 0 128 0 64 64 0 1 0-128 0zM640 477.867a64 64 0 1 0 128 0 64 64 0 1 0-128 0z&quot; fill=&quot;#8a8a8a&quot;/&amp;gt;&amp;lt;/svg&amp;gt;&amp;lt;/div&amp;gt;&apos;);
+      //}
+    }
+  }
+};
+function startTwikoo() {
+  start = setInterval(function(){
+    var twikooDom = document.getElementById(&apos;twikoo&apos;) || &apos;&apos;;
+    var memoTw = document.querySelector(&apos;.memo-wrapper&apos;) || &apos;&apos;;
+    var memoLoading = document.querySelector(&apos;.action-button-container&apos;) || &apos;&apos;;
+    var memoLoadingA = document.querySelector(&apos;.action-button-container a&apos;) || &apos;&apos;;
+    var memoTwIcons = document.querySelectorAll(&apos;.time-text .twicon&apos;) || &apos;&apos;;
+    var nowHref = window.location.href;
+    if( nowHref.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot; &amp;amp;&amp;amp; memoLoadingA){
+      memoLoading.innerHTML = &quot;评论加载中……&quot;
+    }
+    if( nowHref.replace(/^.*\/(m)\/.*$/,&apos;$1&apos;) == &quot;m&quot; &amp;amp;&amp;amp; !twikooDom){
+      addTwikooJS()
+      if(memoTw){
+        clearInterval(start)
+        memoTw.insertAdjacentHTML(&apos;afterend&apos;, &apos;&amp;lt;div id=&quot;mtcomment&quot;&amp;gt;&amp;lt;/div&amp;gt;&apos;);
+        setTimeout(function() {
+          twikoo.init({
+            envId: twikooENV,
+            el: &apos;#mtcomment&apos;,
+            path: nowHref.replace(/^(.*\/m\/[0-9]+).*$/,&apos;$1&apos;),
+            onCommentLoaded: function () {
+              //console.log(&apos;评论加载完成&apos;);
+              memoLoading.innerHTML = &apos;&apos;
+              startTwikoo()
+            }
+          })
+        }, 1000)
+      }
+    }
+    if(nowHref.replace(/^.*\/(explore).*$/,&apos;$1&apos;) == &quot;explore&quot; || nowHref.replace(/^.*\/(u).*$/,&apos;$1&apos;) == &quot;u&quot;){
+      memoTwIcons.forEach(memoTwIcon =&amp;gt; {memoTwIcon.remove();});
+      addComIcon()
+      //console.log(&apos;图标添加成功&apos;);
+    }
+    //console.log(window.location.href);
+  }, 1000)
+}
+startTwikoo();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;自定义样式&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;#twikoo{padding: 1rem;background-color: rgb(63,63,70);margin: 1rem 0;border-radius: .5rem;color: #fff !important;}
+.twicon{position: absolute;right: 1rem;}
+.btns-container.space-x-2{margin-right:1.5rem;}
+.action-button-container{color: #e5e7eb;}
+.action-button-container a{display:none !important;}
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>Artalk评论使用QQ机器人通知</title><link>https://blog.ittst.com/posts/artalk-comments-using-qq-robot-notification/</link><guid isPermaLink="true">https://blog.ittst.com/posts/artalk-comments-using-qq-robot-notification/</guid><description>这篇文章介绍了如何使用QQ机器人接收Artalk的评论通知。文章首先确保Artalk和QQ机器人都已部署完成，然后通过配置QQ机器人的HTTP服务和中间服务MESSAGE-PUSHER来实现消息推送。接着，文章详细说明了如何在MESSAGE-PUSHER中配置通道和接口，并将生成的Webhook地址填入Artalk的Webhook设置中，从而实现Artalk评论时QQ机器人的通知功能。</description><pubDate>Sun, 15 Sep 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;上文&lt;a href=&quot;/2024/e3f20929.html&quot;&gt;使用Docker快速部署一个memos的QQ机器人&lt;/a&gt;介绍了QQ机器人的部署方法&lt;/p&gt;
+&lt;p&gt;本次将介绍如何使用QQ机器人接收Artalk的评论通知
+实现原理是利用Artalk的Webhook功能&lt;/p&gt;
+&lt;h2&gt;准备&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;确保Artalk已经部署完成&lt;/li&gt;
+&lt;li&gt;确保QQ机器人已经部署完成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;使用&lt;/h2&gt;
+&lt;h3&gt;QQ机器人&lt;/h3&gt;
+&lt;p&gt;确保QQ机器人的管理页面开启了HTTP服务,且端口为3000&lt;/p&gt;
+&lt;p&gt;访问IP:3000 出现以下页面则说明QQ机器人已经开启了HTTP服务&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;status&quot;: &quot;failed&quot;,
+  &quot;retcode&quot;: 200,
+  &quot;data&quot;: null,
+  &quot;message&quot;: &quot;不支持的api &quot;,
+  &quot;wording&quot;: &quot;不支持的api &quot;,
+  &quot;echo&quot;: null
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;中间服务message-pusher&lt;/h3&gt;
+&lt;p&gt;源码：https://github.com/songquanpeng/message-pusher&lt;/p&gt;
+&lt;p&gt;部署方法：https://github.com/songquanpeng/message-pusher/blob/master/README.md&lt;/p&gt;
+&lt;p&gt;如果不想部署可直接使用我部署的服务, 地址：https://msg.jkjoy.cn 不保证长期有效&lt;/p&gt;
+&lt;p&gt;进入消息推送服务的&lt;code&gt;通道&lt;/code&gt;配置页面,添加新的通道&lt;/p&gt;
+&lt;p&gt;名称 &lt;code&gt;QQ机器人&lt;/code&gt;
+通道类型 选择 &lt;code&gt;OneBot协议&lt;/code&gt;
+服务器地址填写 &lt;code&gt;机器人的IP地址:3000&lt;/code&gt;
+默认推送目标填写接收通知的QQ号码&lt;/p&gt;
+&lt;p&gt;进入消息推送服务的&lt;code&gt;接口&lt;/code&gt;配置页面,添加新的接口&lt;/p&gt;
+&lt;p&gt;名称 &lt;code&gt;Artalk评论通知&lt;/code&gt;
+通道 选择 &lt;code&gt;QQ机器人&lt;/code&gt;
+提取规则填写&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;id&quot;: &quot;comment.id&quot;,
+  &quot;name&quot;: &quot;comment.nick&quot;,
+  &quot;time&quot;: &quot;comment.date&quot;,
+  &quot;content&quot;: &quot;comment.content&quot;,
+  &quot;site&quot;: &quot;comment.site_name&quot;,
+  &quot;url&quot;: &quot;comment.page_url&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;构建规则填写&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;content&quot;: &quot; $name 在 $site 上评论啦 \n 内容：$content \n 时间:$time \n 链接:$url?atk_comment=$id&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;提交之后 点击&lt;code&gt;复制webhook地址&lt;/code&gt;&lt;/p&gt;
+&lt;h1&gt;Artalk配置&lt;/h1&gt;
+&lt;p&gt;在Artalk的后台管理页面,进入&lt;code&gt;设置&lt;/code&gt;-&amp;gt;&lt;code&gt;多元推送&lt;/code&gt;-&amp;gt;&lt;code&gt;Webhook&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;填入之前复制的webhook地址&lt;/p&gt;
+&lt;p&gt;如此即可在artalk有人评论时QQ机器人通知你的QQ啦!&lt;/p&gt;
+</content:encoded></item><item><title>使用Docker快速部署一个memos的QQ机器人</title><link>https://blog.ittst.com/posts/use-docker-to-quickly-deploy-a-memos-qq-robot/</link><guid isPermaLink="true">https://blog.ittst.com/posts/use-docker-to-quickly-deploy-a-memos-qq-robot/</guid><description>这篇文章介绍了如何使用Docker快速部署一个QQ机器人，并通过对接Nonebot实现Memos机器人的功能。文章详细描述了准备工作，包括安装Docker、获取QQ账号和Memos账号。接着，文章提供了具体的部署步骤，包括创建docker-compose.yml文件并运行相关命令来启动QQ机器人。最后，文章还简要说明了如何使用这个机器人，包括绑定账号和发送消息到Memos的功能。</description><pubDate>Fri, 13 Sep 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;前言：本文介绍了如何使用Docker快速部署一个QQ机器人，并通过对接Nonebot实现Memos机器人的功能。&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;安装Docker&lt;/li&gt;
+&lt;li&gt;一个QQ账号&lt;/li&gt;
+&lt;li&gt;一个Memos账号&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;部署&lt;/h2&gt;
+&lt;h3&gt;memos机器人&lt;/h3&gt;
+&lt;p&gt;此处使用Nonebot2作为框架，自己撸的Nonebot2的插件&lt;code&gt;nonebot_plugin_memos&lt;/code&gt;对接Memos机器人。&lt;/p&gt;
+&lt;p&gt;我打包编译的镜像&lt;code&gt;jkjoy/qq2memos:latest&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如需源码参考 https://www.imsun.org/archives/1668.html&lt;/p&gt;
+&lt;p&gt;首先创建一个docker-compose.yml文件，内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;services:
+  memos:
+    container_name: memos
+    environment:
+      - MEMOS_API=https://memos.imsun.org/api/v1/memo #Memos的API地址,自行修改
+    image: jkjoy/qq2memos:latest  
+    volumes:  
+      - &quot;./data:/app/data&quot;  
+    restart: always
+    ports:
+      - 8080:8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;** 此处的MEMOS_API支持memos v0.15.0以上使用token认证的版本,端口地址根据版本情况自行更改 **
+例如 v0.18.1版本 使用&lt;code&gt;/api/v1/memo&lt;/code&gt;
+v0.20.0版本以上使用&lt;code&gt;/api/v1/memos&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后运行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;端口根据情况自行更改,在填写WS地址时,请使用此处设置的端口&lt;/p&gt;
+&lt;h3&gt;部署QQ机器人&lt;/h3&gt;
+&lt;p&gt;此处以docker-compose的方式部署，其他方法自行搜索。&lt;/p&gt;
+&lt;p&gt;首先创建一个docker-compose.yml文件，内容如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;services:
+  napcat:
+    environment:
+      - ACCOUNT=10000 #QQ机器人号码,自行修改
+      - WS_ENABLE=true
+      - NAPCAT_UID=0
+      - NAPCAT_GID=0
+    ports:
+      - 3001:3001 
+      - 6099:6099
+      - 3000:3000
+    restart: always
+    image: mlikiowa/napcat-docker:latest
+    volumes:
+      - &quot;./QQ:/app/.config/QQ&quot;
+      - &quot;./config:/app/napcat/config&quot;
+    network_mode: host #使用host的原因是为了方便对接宿主机的nonebot框架
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后运行&lt;code&gt;docker-compose up -d&lt;/code&gt;即可。&lt;/p&gt;
+&lt;p&gt;访问WEBUI地址 http://ip:6099/webui/login.html&lt;/p&gt;
+&lt;p&gt;登录所使用的&lt;code&gt;token&lt;/code&gt;在&lt;code&gt;docker-compose.yaml&lt;/code&gt; 所在目录下的&lt;code&gt;config&lt;/code&gt;中的&lt;code&gt;webui.json&lt;/code&gt;中&lt;/p&gt;
+&lt;p&gt;可选择扫码登录&lt;/p&gt;
+&lt;p&gt;在设置页面中添加反向 WS 地址，地址为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ws://127.0.0.1:8080/onebot/v11/ws
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里的 &lt;code&gt;8080&lt;/code&gt; 是 NoneBot 输出的端口号，根据情况自行更改&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/onebot/v11/ws&lt;/code&gt; 是 NoneBot onebot 适配器默认的路径&lt;/p&gt;
+&lt;p&gt;点击保存,容器日志提示通讯成功即可.&lt;/p&gt;
+&lt;h3&gt;使用机器人&lt;/h3&gt;
+&lt;p&gt;在聊天对话框输入任何内容会提示绑定&lt;/p&gt;
+&lt;p&gt;按照提示进行绑定即可&lt;/p&gt;
+&lt;p&gt;在绑定成功后,在聊天对话框输入任何内容都会转发到Memos 且 默认为公开内容.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;暂不支持发送图片等其他内容.&lt;/strong&gt;&lt;/p&gt;
+</content:encoded></item><item><title>给博客增加一个观影页面</title><link>https://blog.ittst.com/posts/add-a-movie-viewing-page-to-the-blog/</link><guid isPermaLink="true">https://blog.ittst.com/posts/add-a-movie-viewing-page-to-the-blog/</guid><description>这篇文章介绍了作者如何通过自定义代码构建一个观影页面，而不是使用插件。文章详细描述了项目的GitHub地址，并提供了具体的步骤：首先根据提供的GitHub链接创建接口，然后在博客根目录下新建movies文件夹和index.md文件，接着创建movies.js文件和movies.css文件，最后完成页面的构建。</description><pubDate>Wed, 11 Sep 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;使用插件构建的观影页面有点不那么喜欢，所以我决定自己写一个。&lt;/p&gt;
+&lt;h2&gt;项目&lt;/h2&gt;
+&lt;p&gt;所使用的的项目地址
+https://github.com/bigfa/douban-cf-worker&lt;/p&gt;
+&lt;h2&gt;步骤&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;首先根据https://github.com/bigfa/douban-cf-worker 中的步骤创建接口&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在博客的根目录下新建一个名为 &lt;code&gt;movies&lt;/code&gt; 的文件夹，然后在 &lt;code&gt;movies&lt;/code&gt; 文件夹下新建一个名为 &lt;code&gt;index.md&lt;/code&gt; 的文件，在文件中写入以下内容：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: 观影
+date: 2024-09-11 13:00:56
+---
+&amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/movies/movies.css&quot;&amp;gt;
+&amp;lt;div class=&quot;masonry&quot; id=&quot;movieContainer&quot;&amp;gt;
+    &amp;lt;!-- 电影项目将被 JavaScript 动态添加到这里 --&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;script defer src=&quot;/movies/movies.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;新建一个&lt;code&gt;movies.js&lt;/code&gt;文件，在文件中写入以下内容：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;    // 创建电影项目的HTML
+    function createMovieItem(movie) {
+        return `
+            &amp;lt;div class=&quot;item&quot;&amp;gt;
+                &amp;lt;div class=&quot;image-container&quot;&amp;gt;
+                    &amp;lt;img src=&quot;${movie.poster}&quot; 
+                         alt=&quot;${movie.name}&quot; 
+                         onerror=&quot;this.onerror=null; this.src=&apos;placeholder.jpg&apos;;&quot;&amp;gt;
+                &amp;lt;/div&amp;gt;
+                &amp;lt;div class=&quot;item-content&quot;&amp;gt;
+                    &amp;lt;div class=&quot;item-title&quot;&amp;gt;
+                        &amp;lt;a href=&quot;${movie.link}&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&amp;gt;${movie.name}&amp;lt;/a&amp;gt;
+                    &amp;lt;/div&amp;gt;
+                    &amp;lt;div class=&quot;item-info&quot;&amp;gt;${movie.card_subtitle}&amp;lt;/div&amp;gt;
+                  
+                    &amp;lt;div class=&quot;item-score&quot;&amp;gt;豆瓣评分: ${movie.douban_score}&amp;lt;/div&amp;gt;
+                &amp;lt;/div&amp;gt;
+            &amp;lt;/div&amp;gt;
+        `;
+    }
+
+    // 从API获取数据并渲染页面
+    async function fetchAndRenderMovies() {
+        try {
+            const response = await fetch(&apos;https://db.imsun.org/list&apos;);
+            const data = await response.json();
+
+            // 按豆瓣评分排序（降序）
+            data.results.sort((a, b) =&amp;gt; b.douban_score - a.douban_score);
+
+            const container = document.getElementById(&apos;movieContainer&apos;);
+            data.results.forEach(movie =&amp;gt; {
+                container.innerHTML += createMovieItem(movie);
+            });
+        } catch (error) {
+            console.error(&apos;Error fetching movie data:&apos;, error);
+            document.getElementById(&apos;movieContainer&apos;).innerHTML = &apos;&amp;lt;p&amp;gt;加载电影数据时出错，请稍后再试。&amp;lt;/p&amp;gt;&apos;;
+        }
+    }
+
+    // 页面加载时获取并渲染电影数据
+    fetchAndRenderMovies();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;在 &lt;code&gt;movies&lt;/code&gt; 文件夹下新建一个名为 &lt;code&gt;movies.css&lt;/code&gt; 的文件，在文件中写入以下内容：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt; 
+.masonry {
+    column-count: 4;
+    column-gap: 20px;
+}
+@media (max-width: 1200px) {
+    .masonry {
+        column-count: 3;
+    }
+}
+@media (max-width: 900px) {
+    .masonry {
+        column-count: 2;
+    }
+}
+@media (max-width: 600px) {
+    .masonry {
+        column-count: 1;
+    }
+}
+.item {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 150%; /* 2:3 宽高比 */
+    overflow: hidden;
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.item-content {
+    position: absolute;
+    font-size: 12px;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.item:hover .item-content {
+    transform: translateY(0);
+}
+
+.item:hover .image-container img {
+    transform: scale(1.1);
+}
+
+.item-title a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.item-title a:hover {
+    text-decoration: underline;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如此即可大功告成了&lt;/p&gt;
+</content:encoded></item><item><title>通过取子集的方式压缩霞鹜文楷字体</title><link>https://blog.ittst.com/posts/compressed-xiafen-kaikai-font-by-taking-the-ziji-setting/</link><guid isPermaLink="true">https://blog.ittst.com/posts/compressed-xiafen-kaikai-font-by-taking-the-ziji-setting/</guid><description>这篇文章介绍了如何使用Python的fonttools库对字体文件进行子集化和压缩。首先，通过pip安装fonttools库，然后使用该库对指定的字体文件进行子集化处理，保留特定的字符集，从而将字体文件从11M压缩到1.7M左右。接着，文章还提到了如何安装并使用brotli模块进一步压缩字体文件，并将最终结果转换为woff2格式，大小约为840kb。整个过程涉及输入和输出文件路径的定义，以及具体的命令操作。</description><pubDate>Tue, 03 Sep 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;使用python&lt;/h2&gt;
+&lt;p&gt;这里使用到的是Python 的库：&lt;code&gt;fonttools&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;使用最新版 &lt;code&gt;Python&lt;/code&gt; 的 pip 命令安装即可在 Shell 中使用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install fonttools
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;常用汉字大约有3500字
+我使用的是这个&lt;a href=&quot;https://cdn.jkjoy.cn/3000.txt&quot;&gt;现代汉语常用 3500 字.txt&lt;/a&gt;
+中文常用字库项目https://github.com/DavidSheh/CommonChineseCharacter&lt;/p&gt;
+&lt;h2&gt;取子集&lt;/h2&gt;
+&lt;p&gt;使用以下命令即可对字体文件取子集&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;fonttools subset &quot;$input_file&quot; --text-file=&quot;$text_file&quot; --output-file=&quot;$output_file&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中
+&lt;code&gt;$input_file&lt;/code&gt;：输入的字体文件。
+&lt;code&gt;$text_file&lt;/code&gt;：定义保留字符的纯文本文件路径。
+&lt;code&gt;$output_file&lt;/code&gt;：输出的字体文件路径。&lt;/p&gt;
+&lt;p&gt;取完子集完成之后字体从11M压缩到1.7M左右&lt;/p&gt;
+&lt;h2&gt;压缩&lt;/h2&gt;
+&lt;p&gt;安装模块&lt;code&gt;brotli&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install brotli
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用命令&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;fonttools ttLib.woff2 compress &quot;$input_file&quot; -o &quot;$output_file&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中
+&lt;code&gt;$input_file&lt;/code&gt;：输入的字体文件。
+&lt;code&gt;$output_file&lt;/code&gt;：输出的字体文件路径。&lt;/p&gt;
+&lt;p&gt;再次压缩为 woff2 字体格式 大约840kb&lt;/p&gt;
+</content:encoded></item><item><title>从memos的webhook开始</title><link>https://blog.ittst.com/posts/start-with-memos&apos;s-webhook/</link><guid isPermaLink="true">https://blog.ittst.com/posts/start-with-memos&apos;s-webhook/</guid><description>这篇文章介绍了如何利用memos的webhook功能从v0.18版本开始，通过复制Typecho主题icefox的CSS布局，创建一个基于memos的单页面，类微信朋友圈。文章详细说明了使用BASH、宝塔WEBHOOK和PHP获取memos的JSON数据的方法，并展示了如何部署webhook镜像和配置webhook以实现自动更新memos.json文件。此外，还提供了演示链接供参考。</description><pubDate>Tue, 18 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;说在前面&lt;/h2&gt;
+&lt;p&gt;memos的&lt;code&gt;webhook&lt;/code&gt;功能从v0.18 版本开始加入.
+&lt;code&gt;webhook&lt;/code&gt;也为&lt;code&gt;memos&lt;/code&gt;带来了不一样的玩法.&lt;/p&gt;
+&lt;p&gt;前段时间从&lt;code&gt;Typecho&lt;/code&gt;主题&lt;code&gt;icefox&lt;/code&gt;上直接&lt;code&gt;CTRL&lt;/code&gt;+&lt;code&gt;C&lt;/code&gt;了CSS布局,做了一个基于&lt;code&gt;memos&lt;/code&gt;的单页面,类微信朋友圈.&lt;/p&gt;
+&lt;p&gt;然后使用&lt;code&gt;webhook&lt;/code&gt;自动保存json到本地目录,快速加载. 解决跨域问题&lt;/p&gt;
+&lt;h2&gt;获取memos.json&lt;/h2&gt;
+&lt;h3&gt;使用bash&lt;/h3&gt;
+&lt;p&gt;创建一个&lt;code&gt;memos.sh&lt;/code&gt;文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+# API地址
+API_URL=&quot;https://memos.ee/api/v1/memos&quot;
+
+# 过滤参数
+FILTER=&quot;visibilities == [&apos;PUBLIC&apos;] &amp;amp;&amp;amp; creator == &apos;users/1&apos;&quot; 
+PAGE_SIZE=&quot;200&quot;
+
+# Authorization 头部
+AUTH_HEADER=&quot;Bearer token&quot;
+
+# 目标文件
+OUTPUT_FILE=&quot;/config/memos.json&quot;
+
+# 使用 curl 发送 GET 请求并将结果保存到文件
+curl -G &quot;${API_URL}&quot; \
+     --data-urlencode &quot;filter=${FILTER}&quot; \
+     --data-urlencode &quot;pageSize=${PAGE_SIZE}&quot; \
+     -H &quot;Authorization: ${AUTH_HEADER}&quot; \
+     -H &quot;Accept: application/json&quot; \
+     -o &quot;${OUTPUT_FILE}&quot;
+
+# 检查是否成功
+if [ $? -eq 0 ]; then
+    echo &quot;JSON 数据已成功保存到 ${OUTPUT_FILE}&quot;
+else
+    echo &quot;获取 JSON 数据失败&quot;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个脚本用于获取最近200条的memos&lt;/p&gt;
+&lt;p&gt;自行更改以上的&lt;code&gt;API_URL&lt;/code&gt; &lt;code&gt;token&lt;/code&gt; 以及过滤参数&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当然我们也可以 使用&lt;code&gt;php&lt;/code&gt;获取json
+或者使用&lt;code&gt;宝塔webhook&lt;/code&gt;获取json
+这样就不需要部署webhook镜像
+可以跳过以下部署webhook镜像的部分&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;使用宝塔webhook&lt;/h3&gt;
+&lt;p&gt;可直接复制bash代码到宝塔的webhook中
+&lt;img src=&quot;https://image.ima.cm/file/968b29c66c6099d11acf6.png&quot; alt=&quot;968b29c66c6099d11acf6.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;其中目标位置&lt;code&gt;OUTPUT_FILE&lt;/code&gt;需要使用绝对路径&lt;/p&gt;
+&lt;p&gt;点击&lt;code&gt;查看密钥&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;宝塔WebHook使用方法:
+GET/POST:
+https://ip:18888/hook?access_key=9EkgLRL4NbZOC7TSfiIyCE3rUQo3yEYfu7XPW6BX3Qjuobwt&amp;amp;param=aaa&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;把以上链接填入memos的webhook中&lt;/p&gt;
+&lt;h3&gt;使用php获取&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;?php
+$url = &apos;https://memos.ee/api/v1/memos&apos;; //api url
+$filter = &quot;visibilities == [&apos;PUBLIC&apos;] &amp;amp;&amp;amp; creator == &apos;users/1&apos;&quot;; //筛选参数visibilities == [&apos;PUBLIC&apos;]公开,creator == &apos;users/1&apos; 用户UID为1
+$pageSize = &quot;200&quot;; //memos数量
+$authHeader = &quot;Bearer token&quot;; //token
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    &apos;Content-Type: application/json&apos;,
+    &apos;Authorization: &apos; . $authHeader,
+    &apos;filter: &apos; . $filter,
+    &apos;pageSize: &apos; . $pageSize
+));
+
+$response = curl_exec($ch);
+
+curl_close($ch);
+
+$data = json_decode($response, true);
+
+if (json_last_error() === JSON_ERROR_NONE) {
+    file_put_contents(&apos;memos.json&apos;, json_encode($data, JSON_PRETTY_PRINT)); //保存为memos.json
+} else {
+    echo &apos;The response is not a valid JSON string.&apos;;
+}
+?&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;把以上保存为memos.php,放在可执行的网站目录中&lt;/p&gt;
+&lt;p&gt;访问地址即可在同级目录下生成memos.json的文件&lt;/p&gt;
+&lt;h2&gt;使用webhook功能&lt;/h2&gt;
+&lt;h3&gt;部署webhook镜像&lt;/h3&gt;
+&lt;p&gt;此处使用一个&lt;code&gt;webhook&lt;/code&gt;的DOCKER镜像&lt;/p&gt;
+&lt;p&gt;此Docker镜像是我根据官方dockerfile增加了中文支持编译而成.
+推荐使用docker-compose部署 编辑&lt;code&gt;docker-compose.yaml&lt;/code&gt;内容为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;services:
+  webhook:
+    image: jkjoy/webhook
+    container_name: webhook
+    command: -verbose -hooks=hooks.yml -hotreload
+    environment:
+      - TZ=Asia/Chongqing #中国时区
+      - LANG=C.UTF-8  #中文支持
+    volumes:
+      - ./:/config:rw
+    ports:
+      - 9000:9000
+    restart: always
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建&lt;code&gt;hooks.yml&lt;/code&gt;文件并编辑内容为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- id: memos
+  execute-command: &quot;/config/memos.sh&quot;
+  command-working-directory: &quot;/&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后运行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;即可&lt;/p&gt;
+&lt;h3&gt;使用Webhook&lt;/h3&gt;
+&lt;p&gt;hooks.yaml为webhook的配置文件&lt;/p&gt;
+&lt;p&gt;其中的execute-command为容器中的可执行脚本目录
+webhook的访问地址格式为 &lt;code&gt;服务器 ip:端口/hooks/id&lt;/code&gt;
+访问http://127.0.0.1:9000/hooks/memos
+即可触发执行&lt;code&gt;bash /config/memos.sh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在memos的webhook设置中填入&lt;code&gt;http://127.0.0.1:9000/hooks/memos&lt;/code&gt;的webhook地址,
+即可&lt;/p&gt;
+&lt;h3&gt;以宝塔为例&lt;/h3&gt;
+&lt;p&gt;创建一个名为 &lt;code&gt;api.domain.com&lt;/code&gt;的网站
+在网站的根目录下创建 &lt;code&gt;docker-compose.yaml&lt;/code&gt;  &lt;code&gt;hooks.yaml&lt;/code&gt; &lt;code&gt;memos.sh&lt;/code&gt; 的文件
+运行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建一个反向代理
+使 127.0.0.1:9000 代理到 api.domain.com 的 /webhook/ 目录
+访问api.domain.com/webhook/hooks/memos
+此时会在网站根目录下生成&lt;code&gt;memos.json&lt;/code&gt;
+访问api.domain.com/memos.json
+此时在memos的webhook地址中填入&lt;code&gt;api.domain.com/webhook/hooks/memos&lt;/code&gt;
+实现在memos更新时自动更新memos.json文件&lt;/p&gt;
+&lt;h2&gt;演示&lt;/h2&gt;
+&lt;p&gt;https://memos.jkjoy.cn&lt;/p&gt;
+</content:encoded></item><item><title>利用 Github Actions 自动部署 Hexo 博客</title><link>https://blog.ittst.com/posts/use-github-actions-to-automatically-deploy-hexo-blog/</link><guid isPermaLink="true">https://blog.ittst.com/posts/use-github-actions-to-automatically-deploy-hexo-blog/</guid><description>这篇文章介绍了如何使用Github Actions实现CI/CD工作流，包括自动化测试、打包和部署等操作。文章详细说明了在已有hexo博客、github账户和项目的基础上，如何创建.github/workflows/main.yml文件，并设置Personal access tokens以实现hexo项目main分支更新时自动更新gh-pages分支的功能。</description><pubDate>Wed, 08 May 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;Github Actions 简介&lt;/h2&gt;
+&lt;p&gt;Github Actions 可以很方便实现 CI/CD 工作流，类似 Travis 的用法，来帮我们完成一些工作，比如实现自动化测试、打包、部署等操作。当我们运行 Jobs 时，它会创建一个容器 (runner)，容器支持：Ubuntu、Windows 和 MacOS 等系统，在容器中我们可以安装软件，利用安装的软件帮我们处理一些数据，然后把处理好的数据推送到某个地方。&lt;/p&gt;
+&lt;h2&gt;前提&lt;/h2&gt;
+&lt;p&gt;1.您已经创建了hexo博客
+2.您已经注册了github的账户
+3.您已经创建了github项目并上传了hexo源码&lt;/p&gt;
+&lt;h3&gt;创建&lt;/h3&gt;
+&lt;p&gt;在项目根目录下创建&lt;code&gt;.github/workflows/main.yml&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;1.&lt;a href=&quot;https://github.com/settings/tokens&quot;&gt;点击此处&lt;/a&gt;申请 Personal access tokens (classic)&lt;/p&gt;
+&lt;p&gt;2.在&lt;code&gt;Settings&lt;/code&gt;-&lt;code&gt;secrets and variables&lt;/code&gt;-&lt;code&gt;Actions&lt;/code&gt;下设置&lt;code&gt;HEXOBLOG&lt;/code&gt;为上一步得到的&lt;code&gt;Personal access tokens&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://image.blog.hb.cn/2024/05/08/663b110f9680f.png!style:webp&quot; alt=&quot;1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;3.可以把以下内容粘贴进去&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;run-name: Deploy 
+ 
+on: 
+  push:
+    branches:
+      - main 
+  
+  release:
+    types:
+      - published 
+ 
+  workflow_dispatch: 
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout 
+      uses: actions/checkout@v2
+      with:
+        ref: main
+ 
+    - name: Setup Node 
+      uses: actions/setup-node@v1
+      with:
+        node-version: &quot;18.x&quot;
+ 
+    - name: Install Hexo 
+      run: |
+        npm install hexo-cli -g
+
+    - name: Cache Modules 
+      uses: actions/cache@v1
+      id: cache-modules
+      with:
+        path: node_modules
+        key: ${{runner.OS}}-${{hashFiles(&apos;**/package-lock.json&apos;)}}
+        
+    - name: npm Install
+      run: | 
+        npm install    
+        
+    - name: Generate 
+      run: |
+        hexo clean
+        hexo generate
+        hexo deploy
+        
+    - name: Deploy 
+      uses: peaceiris/actions-gh-pages@v3
+      with: 
+        personal_token: ${{ secrets.hexoblog }} 
+        PUBLISH_BRANCH: gh-pages 
+        PUBLISH_DIR: ./public 
+        commit_message: ${{ github.event.head_commit.message }}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;实现的功能&lt;/h3&gt;
+&lt;p&gt;在hexo项目&lt;code&gt;main&lt;/code&gt;分支有更新时,会自动更新仓库下分支&lt;code&gt;gh-pages&lt;/code&gt;&lt;/p&gt;
+</content:encoded></item><item><title>在fly.io部署Alist</title><link>https://blog.ittst.com/posts/deploy-alist-in-fly.io/</link><guid isPermaLink="true">https://blog.ittst.com/posts/deploy-alist-in-fly.io/</guid><description>这篇文章介绍了如何在Windows系统上安装FLYCTL工具，并详细说明了初始化、创建应用、设置参数、编辑配置文件、部署应用以及获取管理员密码的步骤。文章通过图文结合的方式，展示了每一步的操作流程，并提供了一个演示链接以供参考。</description><pubDate>Sat, 27 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;安装flyctl&lt;/h2&gt;
+&lt;p&gt;此处以Windows安装为例&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pwsh -Command &quot;iwr https://fly.io/install.ps1 -useb | iex&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;初始化&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl launch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照提示创建一个app
+&lt;img src=&quot;https://images.loliko.cn/2024/01/QQ%E6%88%AA%E5%9B%BE20240127183905.png&quot; alt=&quot;image&quot; /&gt;
+选择&lt;code&gt;N&lt;/code&gt;会跳出网页要求填写
+&lt;img src=&quot;https://images.loliko.cn/2024/01/QQ%E6%88%AA%E5%9B%BE20240127184113.png&quot; alt=&quot;image&quot; /&gt;
+&lt;code&gt;APP name&lt;/code&gt; 自己设置
+&lt;code&gt;port&lt;/code&gt; 为5244
+&lt;code&gt;RAM&lt;/code&gt;选择&lt;code&gt;256MB&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;创建一个1G的可持久卷&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl volumes create alist_data --region hkg --size 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;编辑fly.toml&lt;/h2&gt;
+&lt;p&gt;参照以下内容编辑&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;app = &quot;alist&quot;
+primary_region = &quot;hkg&quot;
+
+[build]
+  image = &quot;xhofe/alist:latest&quot;
+
+[env]
+  PUID = &quot;0&quot;
+  PGID = &quot;0&quot;
+  UMASK = &quot;022&quot;
+
+[[mounts]]
+  source = &quot;alist_data&quot;
+  destination = &quot;/opt/alist/data&quot;
+
+[http_service]
+  internal_port = 5244
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = [&quot;app&quot;]
+
+[[vm]]
+  cpu_kind = &quot;shared&quot;
+  cpus = 1
+  memory_mb = 256
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;部署&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;等待完成,会得到一个网址&lt;/p&gt;
+&lt;h2&gt;演示&lt;/h2&gt;
+&lt;p&gt;https://so4.fly.dev&lt;/p&gt;
+&lt;h2&gt;获取管理员密码&lt;/h2&gt;
+&lt;p&gt;进入SSH&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl ssh console
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;./alist admin set NEW_PASSWORD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;NEW_PASSWORD&lt;/code&gt;为自己设置的密码&lt;/p&gt;
+</content:encoded></item><item><title>使用Docker快速部署mastodon实例</title><link>https://blog.ittst.com/posts/use-docker-to-quickly-deploy-mastodon-instances/</link><guid isPermaLink="true">https://blog.ittst.com/posts/use-docker-to-quickly-deploy-mastodon-instances/</guid><description>这篇文章介绍了如何使用Docker快速部署Mastodon实例的详细步骤，包括创建目录、拉取镜像、修改Docker Compose配置文件、初始化PostgreSQL数据库、配置Mastodon、运行引导、写入配置文件、启动Mastodon、文件夹赋权和创建管理员账户等。</description><pubDate>Mon, 30 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;如何使用Docker快速部署mastodon实例&lt;/h2&gt;
+&lt;p&gt;直接使用docker compose部署是不可行的,需要按照步骤进行&lt;/p&gt;
+&lt;h3&gt;创建目录&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;mkdir -p /home/mastodon/mastodon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;进入目录&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;cd /home/mastodon/mastodon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;拉取镜像&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;docker pull ghcr.io/mastodon/mastodon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;修改docker compose配置文件&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;wget https://raw.githubusercontent.com/mastodon/mastodon/main/docker-compose.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改&lt;code&gt;docker compose&lt;/code&gt;文件中的版本号&lt;/p&gt;
+&lt;h3&gt;初始化PostgreSQL&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;重要!!!!!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;docker run --name postgres14 -v /home/mastodon/mastodon/postgres14:/var/lib/postgresql/data -e   POSTGRES_PASSWORD=设置数据库管理员密码 --rm -d postgres:14-alpine
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;进入数据库&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker exec -it postgres14 psql -U postgres
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建用户名mastodon的密码&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;CREATE USER mastodon WITH PASSWORD &apos;数据库密码（最好和数据库管理员密码不一样）&apos; CREATEDB;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;停止docker&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker stop postgres14
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;配置Mastodon&lt;/h3&gt;
+&lt;p&gt;在&lt;code&gt;/home/mastodon/mastodon&lt;/code&gt;根文件夹中创建空白&lt;code&gt;.env.production&lt;/code&gt;文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd /home/mastodon/mastodon
+touch .env.production
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行引导&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose run --rm web bundle exec rake mastodon:setup
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照提示进行操作
+&lt;code&gt;Below is your configuration, save it to an .env.production file outside Docker:&lt;/code&gt;之后会出现配置文件的数据,复制下来
+写入&lt;code&gt;.env.production&lt;/code&gt;中&lt;/p&gt;
+&lt;p&gt;启动Mastodon&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose down
+docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;文件夹赋权&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chown 991:991 -R ./public
+chown -R 70:70 ./postgres14
+docker-compose down
+docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建管理员&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker exec mastodon-web-1 tootctl accounts create USERNAME --email EMAIL --confirmed --role Owner
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;至此完成&lt;/p&gt;
+</content:encoded></item><item><title>快速部署misskey实例</title><link>https://blog.ittst.com/posts/quickly-deploy-misskey-instance/</link><guid isPermaLink="true">https://blog.ittst.com/posts/quickly-deploy-misskey-instance/</guid><description>这篇文章介绍了如何在纯净的Ubuntu系统上使用一键脚本安装和更新Misskey，推荐配置为双核心四线程。文章详细说明了更新脚本的步骤，以及如何使用Docker Compose进行部署，包括环境准备、Git克隆仓库、编辑配置文件、构建镜像、启动容器和设置反向代理的步骤。</description><pubDate>Wed, 11 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;使用官方推荐一键脚本&lt;/h2&gt;
+&lt;p&gt;使用纯净的Ubuntu系统安装,推荐配置双核心四线程.&lt;/p&gt;
+&lt;h3&gt;更新软件&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt update; sudo apt full-upgrade -y; sudo reboot
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;一键脚本&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;wget https://raw.githubusercontent.com/joinmisskey/bash-install/main/ubuntu.sh -O ubuntu.sh; sudo bash ubuntu.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照提示输入内容&lt;/p&gt;
+&lt;h3&gt;更新misskey脚本&lt;/h3&gt;
+&lt;p&gt;更新 Misskey 的脚本不会升级运行环境。 对于脚本的更新内容，另请参阅 “更新日志”&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;wget https://raw.githubusercontent.com/joinmisskey/bash-install/main/update.ubuntu.sh -O update.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;sudo bash update.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 systemd 的小伙伴, 添加 -r 可以更新并重启系统。&lt;/li&gt;
+&lt;li&gt;使用 docker 的小伙伴, 可以特定软件包版本 repository:tag 来更新。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;使用docker compose部署&lt;/h2&gt;
+&lt;h3&gt;环境&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;li&gt;docker&lt;/li&gt;
+&lt;li&gt;nginx&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;步骤&lt;/h3&gt;
+&lt;h4&gt;git克隆仓库&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;cd /opt
+git clone -b master https://github.com/misskey-dev/misskey.git
+cd misskey
+git checkout master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;复制配置文件：&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;cp .config/example.yml .config/default.yml
+cp .config/docker_example.env .config/docker.env
+cp docker-compose.yml.example docker-compose.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;编辑default.yml中&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;url&lt;/code&gt;设置为实例域名
+db:&lt;code&gt;host&lt;/code&gt;设置为&lt;code&gt;db&lt;/code&gt;
+redis:&lt;code&gt;host&lt;/code&gt;设置为&lt;code&gt;redis&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;构建镜像&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;docker compose build
+docker compose run --rm web yarn run init
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;完成之后&lt;/p&gt;
+&lt;h4&gt;启动容器&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;docker compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;反向代理&lt;/h4&gt;
+&lt;p&gt;参考以下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;map $http_upgrade $connection_upgrade {
+    default upgrade;
+    &apos;&apos;      close;
+}
+
+proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=cache1:16m max_size=1g inactive=720m use_temp_path=off;
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name misskey.example.com;
+    client_max_body_size 0;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+        proxy_cache cache1;
+        proxy_cache_lock on;
+        proxy_cache_use_stale updating;
+        add_header X-Cache $upstream_cache_status;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>Mariadb创建数据库、用户及授权</title><link>https://blog.ittst.com/posts/mariadb-creates-databases,-users-and-authorization/</link><guid isPermaLink="true">https://blog.ittst.com/posts/mariadb-creates-databases,-users-and-authorization/</guid><description>这篇文章介绍了在测试SForum程序中涉及的数据库操作流程，包括安装MARIADB服务器、初始化数据库、连接数据库、创建数据库和本地访问账户、创建用户并设置参数（如用户名、访问方式和密码）、分配权限（包括所有权限和部分权限）以及授权操作权限。</description><pubDate>Fri, 06 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在测试&lt;code&gt;SForum&lt;/code&gt;程序中使用到的部分关于数据库的操作&lt;/p&gt;
+&lt;h2&gt;安装Mariadb服务器&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;apt install mariadb-server-10.6
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;初始化数据库&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt; mysql_secure_installation
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;连接数据库&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;mysql -u root -p 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;创建数据库&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;CREATE DATABASE bbs;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;创建一个本地访问数据库的账户&lt;/h2&gt;
+&lt;h3&gt;创建用户&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;CREATE USER &apos;username&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;password&apos;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;参数：&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;username&lt;/code&gt;：数据库访问的账户；&lt;code&gt;localhost&lt;/code&gt;：数据库的访问方式,外网访问的时候用%替换localhost即可；&lt;code&gt;password&lt;/code&gt;：数据库访问密码，此处输入密码明文；&lt;/p&gt;
+&lt;h2&gt;给测试账户分配权限&lt;/h2&gt;
+&lt;h3&gt;分配所有权限&lt;/h3&gt;
+&lt;p&gt;给用户分配所有的权限，并且通过localhost访问&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GRANT ALL ON bbs.* to username@&apos;localhost&apos; IDENTIFIED BY &apos;password&apos;;
+FLUSH privileges;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;分配部分权限&lt;/h3&gt;
+&lt;h4&gt;给账户分配部分的权限，并且通过外网访问&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;GRANT insert,delete,select,update ON test.* to username@&apos;%&apos; IDENTIFIED BY &apos;password&apos;;
+FLUSH privileges;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;或则采用下面的代码，除了操作权限授权外，还赋予授权的权限。&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;GRANT ALL ON test.* to username@&apos;%&apos; IDENTIFIED BY &apos;passowrd&apos; WITH GRANT OPTION;
+FLUSH privileges;
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>测试xiuno2Sforum中遇到的各种问题</title><link>https://blog.ittst.com/posts/test-various-problems-encountered-in-xiuno2sforum/</link><guid isPermaLink="true">https://blog.ittst.com/posts/test-various-problems-encountered-in-xiuno2sforum/</guid><description>这篇文章介绍了如何将XiunoBBS数据转换为SForum的过程，使用的是SForum v2.2.2版本。文章详细描述了测试环境配置，包括Ubuntu 22.0.4、PHP8.0、MariaDB10.6、Composer、Redis和Nginx或Apache的安装与配置。此外，还涉及了PHP扩展ZIPARCHIVE的安装问题解决，以及通过Composer安装Medoo类库，创建和导入MariaDB数据库，安装Redis和Nginx，最后完成SForum v2.2.2的安装步骤。</description><pubDate>Fri, 06 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;想把&lt;code&gt;xiuno&lt;/code&gt;bbs数据转换成&lt;code&gt;SForum&lt;/code&gt;,由于最新版本的&lt;code&gt;SForum&lt;/code&gt;没有转换工具支持
+于是采用&lt;code&gt;Sforum&lt;/code&gt; v2.2.2测试&lt;/p&gt;
+&lt;h1&gt;测试环境&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Ubuntu 22.0.4&lt;/li&gt;
+&lt;li&gt;php8.0&lt;/li&gt;
+&lt;li&gt;mariadb10.6&lt;/li&gt;
+&lt;li&gt;composer&lt;/li&gt;
+&lt;li&gt;redis&lt;/li&gt;
+&lt;li&gt;nginx or apache&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;测试程序&lt;/h2&gt;
+&lt;p&gt;sforum v2.2.2&lt;/p&gt;
+&lt;p&gt;xiuno2sforum v2.2.2&lt;/p&gt;
+&lt;h2&gt;PHP&lt;/h2&gt;
+&lt;h3&gt;安装PPA 源&lt;/h3&gt;
+&lt;p&gt;需要使用 PPA 源安装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;安装php8.0&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;apt install php8.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;apt install -y php8.0-dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;安装拓展&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;apt install php8.0-curl php8.0-xml php8.0-gd php8.0-mbstring php8.0-redis php8.0-swoole php8.0-bcmath php-intl -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;查看php版本&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;php -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看拓展&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;php -m
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;切换PHP版本&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;update-alternatives --config php
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;切换到&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;update-alternatives --set php /usr/bin/php8.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;PHP 扩展 ZipArchive&lt;/h3&gt;
+&lt;p&gt;上传压缩包提示500错误,打开日志发现是缺少组件&lt;/p&gt;
+&lt;h4&gt;服务器上存在多个php版本，手动指定php-config文件&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;./configure --with-php-config=/www/server/php/73/bin/php-config
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;安装ZipArchive扩展&lt;/h4&gt;
+&lt;h5&gt;编译&lt;code&gt;ZipArchive&lt;/code&gt;&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;cd ~
+wget http://pecl.php.net/get/zip
+tar -zxvf zip
+cd zip-x.x.x
+phpize
+./configure
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;成功安装zip之后会返回一个路径：&lt;/h4&gt;
+&lt;p&gt;类似&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Installing shared extensions:     /www/server/php/8/lib/php/extensions/no-debug-non-zts-20180731/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;加到php.ini中：&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;extension=/www/server/php/8/lib/php/extensions/no-debug-non-zts-20180731/zip.so
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或
+在&lt;code&gt;php.ini&lt;/code&gt;中添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; extension=zip.so
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;提示&lt;code&gt;checking for libzip... not found&lt;/code&gt;&lt;/h4&gt;
+&lt;h5&gt;编译&lt;code&gt;libzip&lt;/code&gt;&lt;/h5&gt;
+&lt;pre&gt;&lt;code&gt;wget https://libzip.org/download/libzip-1.3.2.tar.gz
+tar xvf libzip-1.3.2.tar.gz
+cd libzip-1.3.2
+./configure
+make
+make install
+export PKG_CONFIG_PATH=&quot;/usr/local/lib/pkgconfig/&quot; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;在使用插件转换数据中一直报错无法使用的class medoo&lt;/h3&gt;
+&lt;p&gt;所以使用cpmposer安装&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;composer require catfan/Medoo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;mariadb&lt;/h2&gt;
+&lt;h3&gt;创建数据库&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://blog.loliko.cn/2023/dfdf0a76.html&quot;&gt;Mariadb创建数据库、用户及授权&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;数据导入&lt;/h3&gt;
+&lt;p&gt;导入sql备份文件&lt;/p&gt;
+&lt;p&gt;进入数据库&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mysql -uroot -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用数据库bbs&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;use bbs
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;导入sql路径&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;source /root/bbs.sql;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;安装 Redis&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;apt install redis-server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;安装 Nginx&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;apt install nginx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;安装composer&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;apt install git zip unzip
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+chmod +x /usr/local/bin/composer
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;安装SForum v2.2.2&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;composer create-project zhuchunshu/sforum=v2.2.2 sforum
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;进入安装目录，&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd sforum
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照提示，连续执行命令即可完成安装（启动服务也是此命令）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;php CodeFec CodeFec
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>centos在yum时出现Determining fastest mirrors</title><link>https://blog.ittst.com/posts/centos-appears-at-yum/</link><guid isPermaLink="true">https://blog.ittst.com/posts/centos-appears-at-yum/</guid><description>这篇文章介绍了两个关于Yum使用中的问题及其解决方法。第一个问题是yum makecache时卡在Determining fastest mirrors，解决方法是禁用fastestmirror插件，通过修改/etc/yum/pluginconf.d/fastestmirror.conf和/etc/yum.conf文件实现。第二个问题是无法访问ELRepo镜像列表，解决方法是更新ELRepo软件仓库镜像，通过替换/etc/yum.repos.d/elrepo.repo文件中的mirrorlist地址来实现。</description><pubDate>Thu, 05 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;问题1&lt;/h2&gt;
+&lt;p&gt;在&lt;code&gt;yum makecache&lt;/code&gt;时，停在&lt;code&gt;Determining fastest mirrors&lt;/code&gt;，一直在判断最快镜像，由于已经指定了yum源，所以不需要些插件，可以用动禁用。&lt;/p&gt;
+&lt;p&gt;解决方法：&lt;/p&gt;
+&lt;p&gt;修改&lt;code&gt;/etc/yum/pluginconf.d/fastestmirror.conf&lt;/code&gt;里面的&lt;code&gt;enabled=0&lt;/code&gt;；&lt;/p&gt;
+&lt;p&gt;修改&lt;code&gt;/etc/yum.conf&lt;/code&gt;里面的&lt;code&gt;plugins=0&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;问题解决。&lt;/p&gt;
+&lt;h2&gt;问题2&lt;/h2&gt;
+&lt;p&gt;Could not retrieve mirrorlist http://mirrors.elrepo.org/mirrors-elrepo.el7 error was
+12: Timeout on http://mirrors.elrepo.org/mirrors-elrepo.el7: (28, &apos;Connection timed out after 30001 milliseconds&apos;)&lt;/p&gt;
+&lt;p&gt;镜像列表http://mirrors.elrepo.org/mirrors-elrepo.el7 的地址无法访问&lt;/p&gt;
+&lt;p&gt;解决方法&lt;/p&gt;
+&lt;p&gt;更新ELRepo 软件仓库镜像
+首先按照官网的安装说明，配置 ELRepo：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照你的系统版本，运行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum install https://www.elrepo.org/elrepo-release-7.el7.elrepo.noarch.rpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接下来是换源，建议先备份 &lt;code&gt;/etc/yum.repos.d/elrepo.repo&lt;/code&gt; ：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cp /etc/yum.repos.d/elrepo.repo /etc/yum.repos.d/elrepo.repo.bak
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后编辑&lt;code&gt; /etc/yum.repos.d/elrepo.repo&lt;/code&gt; 文件，在 &lt;code&gt;mirrorlist= &lt;/code&gt;后的地址替换为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://mirrors.tuna.tsinghua.edu.cn/elrepo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;最后，更新软件包缓存&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;yum makecache
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>Docker部署Activity-Relay服务</title><link>https://blog.ittst.com/posts/docker-deploy-activity-relay-service/</link><guid isPermaLink="true">https://blog.ittst.com/posts/docker-deploy-activity-relay-service/</guid><description>这篇文章介绍了在CentOS 7.9环境下部署一个项目的过程，包括安装必要的软件（如git、openssl、nginx、docker和docker-compose），从仓库拉取代码，编辑配置文件，生成RSA证书，构建并运行Docker镜像，查看容器状态，以及停止服务的步骤。同时还提到了Ubuntu和CentOS在生成证书时的不同命令，以及权限设置和Nginx配置的相关参考。</description><pubDate>Tue, 03 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
+&lt;li&gt;经过测试国内部署会有无法通讯的问题.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;测试环境&lt;/h2&gt;
+&lt;p&gt;centos7.9&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;git&lt;/li&gt;
+&lt;li&gt;openssl&lt;/li&gt;
+&lt;li&gt;nginx&lt;/li&gt;
+&lt;li&gt;docker&lt;/li&gt;
+&lt;li&gt;docker-compose&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;从仓库Pull a repository&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/yukimochi/Activity-Relay.git -b v2.0.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;复制编辑config.yml&lt;/h2&gt;
+&lt;p&gt;进入&lt;code&gt;Activity-Relay&lt;/code&gt;目录&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd Activity-Relay
+cp config.yml.example config.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改相关配置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vim config.yml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;生成actor RSA 证书 ./actor.pem&lt;/h2&gt;
+&lt;p&gt;ubuntu使用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openssl genrsa -traditional | tee actor.pem
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;centos使用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openssl genrsa -out actor.pem 1024 | tee actor.pem
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;赋予权限600&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chmod 600 actor.pem
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;构建镜像与运行服务&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose build
+docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;查看容器运行状态&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose ps
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;停止服务&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose down
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;相关参考&lt;/h2&gt;
+&lt;p&gt;docker-compose配置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;version: &quot;2.3&quot;
+services:
+  redis:
+    restart: always
+    image: redis:alpine
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;redis-cli&quot;, &quot;ping&quot;]
+    volumes:
+      - &quot;./redisdata:/data&quot;
+
+  worker:
+    container_name: worker
+    build: .
+    image: yukimochi/activity-relay
+    working_dir: /var/lib/relay
+    restart: always
+    init: true
+    command: relay worker
+    volumes:
+      - &quot;./actor.pem:/var/lib/relay/actor.pem&quot;
+      - &quot;./config.yml:/var/lib/relay/config.yml&quot;
+    depends_on:
+      - redis
+
+  server:
+    container_name: relay
+    build: .
+    image: yukimochi/activity-relay
+    working_dir: /var/lib/relay
+    restart: always
+    init: true
+    ports:
+      - &quot;8080:8080&quot;
+    command: relay server
+    volumes:
+      - &quot;./actor.pem:/var/lib/relay/actor.pem&quot;
+      - &quot;./config.yml:/var/lib/relay/config.yml&quot;
+    depends_on:
+      - redis
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nginx设置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;upstream relay {
+    server 127.0.0.1:8080;
+  }
+  server {
+    server_name relay.example.com;
+
+    location / {
+      root /var/lib/relay;
+      try_files $uri $uri/index.html =404;
+    }
+
+    location /inbox {
+      rewrite ^/inbox(.*) /$1 break;
+      proxy_pass http://relay/;
+      proxy_pass_request_headers on;
+      proxy_set_header Host $http_host;
+    }
+
+    location /actor {
+      rewrite ^/inbox(.*) /$1 break;
+      proxy_pass http://relay/;
+      proxy_pass_request_headers on;
+      proxy_set_header Host $http_host;
+    }
+
+  }
+
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>NEC M700黑苹果OC0.9.4引导</title><link>https://blog.ittst.com/posts/nec-m700-black-apple-oc0.9.4-guide/</link><guid isPermaLink="true">https://blog.ittst.com/posts/nec-m700-black-apple-oc0.9.4-guide/</guid><description>这篇文章介绍了如何在NEC M700笔记本上安装黑苹果，使用OpenCore 0.9.4引导。文章详细列出了笔记本的硬件配置，包括CPU、主板、内存、硬盘、无线网卡、有线网卡和声卡。此外，还提到了安装前的准备工作，如使用U盘、解锁CFG LOCK工具、ami BIOS提取工具和OCAT。具体步骤包括在Windows系统下提取BIOS文件，并通过UEFI TOOL打开并查找cfg lock项。</description><pubDate>Sun, 01 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;NEC M700黑苹果OC0.9.4引导&lt;/h2&gt;
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;CPU QHPW 2.2Ghz 四核心八线程I7es魔改
+主板NEC
+内存8GB DDR4 2666Mhz
+硬盘512GB SSD
+无线网卡BCM943224pcieBT拆机
+有线网卡INTEL
+声卡ALC235&lt;/p&gt;
+&lt;h3&gt;准备工作&lt;/h3&gt;
+&lt;p&gt;U盘 16G以上
+解锁CFG LOCK工具
+ami BIOS提取工具
+opencore
+OCAT&lt;/p&gt;
+&lt;h3&gt;解锁CFG LOCK&lt;/h3&gt;
+&lt;p&gt;在WINDOWS系统下通过工具提取出BIOS.
+通过&lt;code&gt;UEFI TOOL&lt;/code&gt;打开提取出的BIOS文件,查找&lt;code&gt;cfg lock&lt;/code&gt;&lt;/p&gt;
+</content:encoded></item><item><title>在fly.io部署Gotosocial</title><link>https://blog.ittst.com/posts/deploy-gotosocial-in-fly.io/</link><guid isPermaLink="true">https://blog.ittst.com/posts/deploy-gotosocial-in-fly.io/</guid><description>这篇文章介绍了如何安装和配置GoToSocial，一个轻量级的ActivityPub联邦社交网络程序。文章详细说明了注册Fly.io和Cloudflare账户的步骤，安装FLYCTL的方法，以及如何在不同操作系统上进行操作。此外，还涵盖了创建应用、储存卷、编辑配置文件、部署应用、创建用户和管理员账户的具体步骤，并提供了演示链接和下载数据库的方法。</description><pubDate>Thu, 17 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;关于Gotosocial&lt;/h2&gt;
+&lt;p&gt;GoToSocial 是一个十分轻量（轻量到甚至没有用户界面，需要使用第三方程序登录、兼容 Mastodon 应用进行使用）的 ActivityPub 联邦社交网络程序，自建 GoToSocial 可以避免您的信息因为所在实例倒闭、不可抗力等原因化为乌有。&lt;/p&gt;
+&lt;h2&gt;准备&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;注册 Fly.io 账号，并绑卡（避免滥用）；&lt;/li&gt;
+&lt;li&gt;注册 Cloudflare 并启用 R2，启用 R2 需要绑卡。新建一个储存桶并创建一个 API 令牌。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;安装 flyctl&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Linux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;curl -L https://fly.io/install.sh | sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;curl -L https://fly.io/install.sh | sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows，需要开启 RemoteSigned: 管理员运行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;powershell -Command &quot;iwr https://fly.io/install.ps1 -useb | iex&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;登录&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl auth login
+
+# 若登录失败使用
+# flyctl auth login -i 
+# 输入账号密码进行登录
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;创建APP&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;YOURAPPNAME&lt;/code&gt;更改为自己希望设置的名称&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl launch --name YOURAPPNAME --image=superseriousbusiness/gotosocial:latest --region hkg --no-deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;创建储存卷&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl volumes create social_data --region hkg --size 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;编辑配置&lt;/h2&gt;
+&lt;p&gt;编辑根目录下的 &lt;code&gt;fly.toml&lt;/code&gt; 配置文件，参考下方&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;app = &quot;gotos&quot; ## 自定义名称
+primary_region = &quot;hkg&quot; ##服务器节点,当前为香港
+
+[experimental]
+  vm = true
+
+[build]
+  image = &quot;superseriousbusiness/gotosocial:latest&quot;
+
+[env]
+  GTS_DB_ADDRESS = &quot;/gotosocial/storage/sqlite.db&quot;
+  GTS_DB_TLS_MODE = &quot;enable&quot;
+  GTS_DB_TYPE = &quot;sqlite&quot;
+  GTS_HOST = &quot;GTS的域名&quot;
+  GTS_LETSENCRYPT_ENABLED = &quot;false&quot;
+  GTS_STORAGE_BACKEND = &quot;s3&quot;
+  GTS_STORAGE_S3_BUCKET = &quot;BUCKET名称&quot;
+  GTS_STORAGE_S3_ENDPOINT = &quot;#S3 API&quot;
+  GTS_STORAGE_S3_ACCESS_KEY = &quot;#api-tokens&quot;
+  GTS_STORAGE_S3_SECRET_KEY = &quot;#api-tokens&quot;
+  GTS_STORAGE_S3_PROXY = &quot;true&quot;
+  # 添加时区为UTC+8
+  TZ = &quot;Asia/Chongqing&quot;
+
+[[mounts]]
+  source = &quot;social_data&quot;
+  destination = &quot;/gotosocial/storage&quot;
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = [&quot;app&quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上配置中&lt;code&gt;GTS_STORAGE_S3_ENDPOINT&lt;/code&gt;不需要带&lt;code&gt;https:&lt;/code&gt;和最后的&lt;code&gt;/BUCKET名称&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;部署&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;启动成功后会显示一个URL,能成功访问则代表部署成功。&lt;/p&gt;
+&lt;h2&gt;创建用户和管理员&lt;/h2&gt;
+&lt;p&gt;在 &lt;code&gt;fly.toml &lt;/code&gt;文件目录执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl ssh console
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;创建用户&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;/gotosocial/gotosocial admin account create --username YOUR_USERNAME --email YOUR@EMAIL.COM --password &apos;SOME_VERY_GOOD_PASSWD&apos;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;YOUR_USERNAME&lt;/code&gt;为用户名
+&lt;code&gt;YOUR@EMAIL.COM&lt;/code&gt;为邮箱
+&lt;code&gt;SOME_VERY_GOOD_PASSWD&lt;/code&gt;为密码,需设置足够复杂,太简单会提示密码不够安全,需重新设置&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置管理员&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;/gotosocial/gotosocial admin account promote --username YOUR_USERNAME
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;演示&lt;/h2&gt;
+&lt;p&gt;https://m.ima.cm&lt;/p&gt;
+&lt;p&gt;https://m.ima.cm/@jkjoy&lt;/p&gt;
+&lt;h2&gt;下载数据库&lt;/h2&gt;
+&lt;p&gt;在 &lt;code&gt;fly.toml &lt;/code&gt;文件目录执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl sftp get /gotosocial/storage/sqlite.db
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>在fly.io部署artalk评论系统</title><link>https://blog.ittst.com/posts/deploy-the-artalk-review-system-in-fly.io/</link><guid isPermaLink="true">https://blog.ittst.com/posts/deploy-the-artalk-review-system-in-fly.io/</guid><description>这篇文章介绍了如何在Fly.io平台上使用其提供的免费服务，包括安装flyctl命令行工具、创建应用、分配1G硬盘空间以及编辑FLY.TOML文件来设置管理员账号和重启服务的步骤。Fly.io提供三个256MB内存的服务器和总3G硬盘空间，但需要绑定信用卡以防止滥用。</description><pubDate>Tue, 15 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;众所周知&lt;code&gt;Fly.io&lt;/code&gt;是一个免费的SAAS平台
+提供三个内存为256MB的服务器,总3G硬盘空间.
+为防止滥用,需要绑定信用卡.&lt;/p&gt;
+&lt;h2&gt;准备&lt;/h2&gt;
+&lt;p&gt;安装官方的命令行工具flyctl&lt;/p&gt;
+&lt;h2&gt;初始化&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl launch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;根据提示创建一个app&lt;/p&gt;
+&lt;h2&gt;创建一个1G的硬盘&lt;/h2&gt;
+&lt;p&gt;1G的硬盘用来储存评论数据绰绰有余了&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl volumes create artalk_data --region hkg --size 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;编辑FLY.TOML&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;#根据自动生成的FLY.TOML文件修改
+app = &quot;atim&quot;  
+primary_region = &quot;hkg&quot;
+
+[build]
+  image = &quot;artalk/artalk-go&quot;
+
+[http_service]
+  internal_port = 23366
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = [&quot;app&quot;]
+
+[[mounts]]
+  source = &quot;artalk_data&quot;
+  destination = &quot;/data&quot;
+
+[experimental]
+  vm = true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;在 fly.toml 文件目录执行&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl ssh console
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建一个管理员账号&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;./artalk admin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如需重启则执行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl apps restart
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>如何在Fly.io部署Memos</title><link>https://blog.ittst.com/posts/how-to-deploy-memos-in-fly.io/</link><guid isPermaLink="true">https://blog.ittst.com/posts/how-to-deploy-memos-in-fly.io/</guid><description>这篇文章介绍了如何在FLY.IO上部署memos应用，并使用Backblaze B2云存储进行数据库备份。文章详细说明了注册FLY.IO和Backblaze B2的步骤，安装flyctl工具，创建和配置FLY.TOML文件，添加持久卷和密钥，最后进行应用部署。此外，还提供了演示地址和绑定域名的示例。</description><pubDate>Tue, 15 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;项目&lt;/h2&gt;
+&lt;p&gt;https://github.com/hu3rror/memos-on-fly&lt;/p&gt;
+&lt;h2&gt;准备工作&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;注册FLY.IO
+用以部署memos&lt;/li&gt;
+&lt;li&gt;注册B2C
+https://www.backblaze.com/cloud-storage
+用以同步备份memos数据库
+新建BUCKET,并获取&lt;code&gt;&amp;lt;keyId&amp;gt;&lt;/code&gt;和&lt;code&gt;&amp;lt;applicationKey&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;安装flyctl&lt;/h2&gt;
+&lt;p&gt;Install flyctl
+以WINDOWS为例&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pwsh -Command &quot;iwr https://fly.io/install.ps1 -useb | iex&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其他系统请参照官方&lt;/p&gt;
+&lt;h2&gt;新建APP&lt;/h2&gt;
+&lt;p&gt;初始化&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl launch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按照提示选择会生成一个FLY.TOML文件&lt;/p&gt;
+&lt;h2&gt;编辑FLY.TOML&lt;/h2&gt;
+&lt;p&gt;添加以下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[build]
+  image = &quot;ghcr.io/hu3rror/memos-litestream:latest&quot;
+#如果不需要备份数据库则可以选择官方的docker镜像ghcr.io/usememos/memos:latest
+#使用官方镜像可以删掉env的部分
+[env]
+  # Details see: https://litestream.io/guides/backblaze/
+  LITESTREAM_REPLICA_BUCKET = &quot;B2C桶名称&quot;     # change to your litestream bucket name
+  LITESTREAM_REPLICA_ENDPOINT = &quot;s3.us-east-005.backblazeb2.com&quot;     # change to your litestream endpoint url
+  LITESTREAM_REPLICA_PATH = &quot;memos_prod.db&quot;     # keep the default or change to whatever path you want
+
+[[mounts]]
+  source = &quot;memos_data&quot;
+  destination = &quot;/var/opt/memos&quot;
+
+[http_service]
+  internal_port = 5230
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;添加持久卷&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl volumes create memos_data --region hkg --size 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;密钥&lt;/h2&gt;
+&lt;p&gt;将B2存储的密钥添加到fly的密钥存储中,使用官方镜像可以忽略此步骤&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;flyctl secrets set LITESTREAM_ACCESS_KEY_ID=&quot;&amp;lt;keyId&amp;gt;&quot; LITESTREAM_SECRET_ACCESS_KEY=&quot;&amp;lt;applicationKey&amp;gt;&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;部署&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;flyctl deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;演示地址&lt;/h2&gt;
+&lt;p&gt;https://memosim.fly.dev/
+绑定域名演示
+https://imad.top&lt;/p&gt;
+</content:encoded></item><item><title>使用 Docker 构建 Pleroma 实例</title><link>https://blog.ittst.com/posts/use-docker-to-build-a-pleroma-example/</link><guid isPermaLink="true">https://blog.ittst.com/posts/use-docker-to-build-a-pleroma-example/</guid><description>这篇文章介绍了如何使用Docker构建Pleroma实例，Pleroma是一个基于ActivityPub协议的去中心化社区程序。文章详细说明了在宝塔面板中安装Docker、获取DOCKER-COMPOSE.YML模板、修改配置文件、启动容器、添加反向代理、创建管理员账户以及修改文件夹权限的步骤。此外，还提到了如果使用S3协议的对象存储则无需修改文件夹权限，并提供了一个演示地址。</description><pubDate>Mon, 24 Jul 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Pleroma 是一个去中心化的社区程序，其基于 ActivityPub 协议。
+而 ActivityPub 包括 Mastodon（Pawoo 等）、Misskey（misskey.io 等）、Pleroma 等等。
+在这些开源产品中，Pleroma 实机上部署环境步骤复杂繁琐。
+但它是对服务器性能要求最低的微博客工具，它的配置要求多低呢？
+现在 docker 的出现大大简化了部署的方式，只需要简单三步即可轻松搭建实例。&lt;/p&gt;
+&lt;p&gt;本文将介绍如何使用 docker 构建 Pleroma 实例。
+以宝塔面板为例&lt;/p&gt;
+&lt;h3&gt;先安装docker&lt;/h3&gt;
+&lt;p&gt;在应用商店中查找docker并安装&lt;/p&gt;
+&lt;h3&gt;获取 docker-compose.yml 模板&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;git clone https://git.pleroma.social/pleroma/pleroma-docker-compose.git
+cd pleroma-docker-compose 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接下来所有操作（除 nginx 配置）如果没有加以说明都在这个目录下进行。&lt;/p&gt;
+&lt;h3&gt;需要修改的内容&lt;/h3&gt;
+&lt;p&gt;打开&lt;code&gt;./enviroments/pleroma/pleroma.env&lt;/code&gt;，修改其中的配置：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;DB_USER=pleroma # 数据库用户名
+DB_PASS=pleroma # 数据库密码
+DB_HOST=pleroma-db # 数据库地址
+DB_NAME=pleroma # 数据库名
+INSTANCE_NAME=Pleroma # 实例名
+ADMIN_EMAIL=admin@ops.pleroma.social # 管理员邮箱
+NOTIFY_EMAIL=pleroma+admin@ops.pleroma.social # 通知邮箱
+DOMAIN=s.pwq.app # 实例域名
+PORT=4000 # 实例运行端口
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只需要修改域名和邮箱即可
+打开&lt;code&gt;./volumes/pleroma/config.exs&lt;/code&gt;
+在下面添加&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import Config
+config :pleroma, configurable_from_database: true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;启动容器&lt;/h3&gt;
+&lt;p&gt;随后运行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;启动容器。&lt;/p&gt;
+&lt;h3&gt;添加反向代理&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;#PROXY-START/
+
+location ^~ /
+{
+    # 4000 是你的实例容器运行端口，如果你修改过，记得改成你的端口。
+    proxy_pass http://127.0.0.1:4000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    # proxy_hide_header Upgrade;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;创建管理员账户&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;docker exec -it pleroma ./opt/pleroma/bin/pleroma_ctl user new admin 邮箱 --admin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;运行后会出现一个链接,复制在浏览器即可重置密码.&lt;/p&gt;
+&lt;h3&gt;修改文件夹权限&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;/root/pleroma-docker-compose/volumes/pleroma&lt;/code&gt;下的&lt;code&gt;uploads&lt;/code&gt;权限设置为&lt;code&gt;777&lt;/code&gt;
+当然如果你用S3协议的对象存储则不需要修改
+直接在后台设置S3即可.&lt;/p&gt;
+&lt;h3&gt;演示地址&lt;/h3&gt;
+&lt;p&gt;https://chaihu.top&lt;/p&gt;
+</content:encoded></item><item><title>用Memos API实现hexo博客的动态说说页面</title><link>https://blog.ittst.com/posts/use-memos-api-to-implement-the-dynamic-page-of-the-hexo-blog/</link><guid isPermaLink="true">https://blog.ittst.com/posts/use-memos-api-to-implement-the-dynamic-page-of-the-hexo-blog/</guid><description>这篇文章介绍了如何修改Memos/index.md文件的内容，并提到代码来源于网络。</description><pubDate>Tue, 13 Jun 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;新建一个页面&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;hexo new page Memos
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改&lt;code&gt;Memos/index.md&lt;/code&gt;内容为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;---
+title: Memos
+comments: false
+date: 2023-06-07 14:17:13
+---
+&amp;lt;link href=&quot;https://blogcdn.loliko.cn/memos/css/memo.css?0.0.5&quot; rel=&quot;stylesheet&quot; /&amp;gt;
+&amp;lt;div id=&quot;bber&quot;&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;script type=&quot;module&quot; src=&quot;https://immmmm.com/emaction.js?v=230811&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://fastly.jsdelivr.net/npm/marked/marked.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://fastly.jsdelivr.net/gh/Tokinx/ViewImage/view-image.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://fastly.jsdelivr.net/gh/Tokinx/Lately/lately.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://cdn.staticfile.org/twikoo/1.6.32/twikoo.all.min.js&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script type=&quot;text/javascript&quot;&amp;gt;
+  var bbMemos = {
+    memos : &apos;https://memos.loliko.cn/&apos;,//修改为自己部署 Memos 的网址，末尾有 / 斜杠
+    limit : &apos;20&apos;,//默认每次显示 10 条
+    creatorId:&apos;1&apos; ,//早期默认为 101 用户，新安装是 1； https://demo.usememos.com/u/101
+    domId: &apos;&apos;,//默认为 bber
+    twiEnv:&apos;https://t.loliko.cn&apos;,//启开 twikoo 评论，默认 https://metk.edui.fun/
+  }
+&amp;lt;/script&amp;gt;
+&amp;lt;script src=&quot;https://blogcdn.loliko.cn/memos/js/memo.js?0.0.2&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;即可~&lt;/p&gt;
+&lt;p&gt;代码来源于网络~&lt;/p&gt;
+</content:encoded></item><item><title>2023国内注册ChatGPT的方法</title><link>https://blog.ittst.com/posts/2023-methods-to-register-chatgpt-in-china/</link><guid isPermaLink="true">https://blog.ittst.com/posts/2023-methods-to-register-chatgpt-in-china/</guid><description>这篇文章介绍了国内用户如何注册和使用ChatGPT的方法。首先，用户需要有一个非中国大陆的网络环境和一个可以接收短信验证码的手机号码。接着，通过OpenAI官网进行账号注册，包括邮箱验证和手机号码验证。文章还提到了如果无法直接注册，可以通过搭建梯子或使用第三方接码平台来解决。最后，注册完成后，用户可以登录ChatGPT官网开始使用。</description><pubDate>Fri, 07 Apr 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h4&gt;国内注册ChatGPT的方法&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;ChatGPT&lt;/code&gt; 是由 &lt;code&gt;OpenAI &lt;/code&gt;开发的一个人工智能聊天机器人程序，于 2022 年 11 月推出，基于 GPT-3.5 架构的大型语言模型并通过强化学习进行训练，在这款软件中用户们可以与 AI 人工智能进行多种的对话工作，目前，有部分地区（例如&lt;code&gt;中国大陆&lt;/code&gt;、&lt;code&gt;香港&lt;/code&gt;）无法使用此项服务&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ChatGPT&lt;/code&gt;技术开发商&lt;code&gt;OpenAI&lt;/code&gt;斥巨资买下&lt;code&gt;AI.com&lt;/code&gt;域名，现在访问&lt;a href=&quot;https://ai.com&quot;&gt;AI.com&lt;/a&gt;直接跳转到ChatGPT官网。
+2024年&lt;a href=&quot;https://ai.com&quot;&gt;AI.com&lt;/a&gt;已经跳转到google Gemini的官网了&lt;/p&gt;
+&lt;h4&gt;ChatGPT功能&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;ChatGPT 在搜索和写作上非常强大。&lt;/li&gt;
+&lt;li&gt;ChatGPT 可以根据用户提供的信息，给出合理而有效的搜索结果，&lt;/li&gt;
+&lt;li&gt;ChatGPT 写的短篇小说，&lt;/li&gt;
+&lt;li&gt;ChatGPT 写的信件，内容通畅，用词准确。&lt;/li&gt;
+&lt;li&gt;ChatGPT 撰写专业的电子邮件回复&lt;/li&gt;
+&lt;li&gt;ChatGPT 为营销活动产生新的内容创意&lt;/li&gt;
+&lt;li&gt;ChatGPT 解决任何编码问题或为获取代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;国内用户注册ChatGPT的方法&lt;/h4&gt;
+&lt;p&gt;国内用户想要注册 ChatGPT，首先需要有一个&lt;strong&gt;网络环境&lt;/strong&gt;，例如&lt;code&gt;美国&lt;/code&gt;；然后，需要一个可以接收短信验证码的手机号码，之后就可以打开 ChatGPT 的网站&lt;strong&gt;注册 ，邮件验证，电话号码验证&lt;/strong&gt;等等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果出现如下的界面，则证明你的网络所在地区无法注册访问ChatGPT。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;注意：&lt;/code&gt;如果无法搞定上述必要条件的话，可以尝试
+搭建一个梯子  &lt;a href=&quot;https://www.sunpeiwen.com/archives/396.html&quot;&gt;x-ui：支持多协议多用户的 xray 面板&lt;/a&gt;&lt;/p&gt;
+&lt;h5&gt;注册 OpenAI 账号&lt;/h5&gt;
+&lt;p&gt;1、点击打开 &lt;a href=&quot;https://chat.openai.com/auth/login&quot;&gt;https://chat.openai.com/auth/login&lt;/a&gt; 页面中的 &lt;code&gt;Sign up &lt;/code&gt;进行相应的账号注册（注意网络环境不能是&lt;code&gt;香港&lt;/code&gt;，&lt;code&gt;澳门&lt;/code&gt;等地区，不然会提示不能在当前国家服务）。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676427587-%E6%B3%A8%E5%86%8COpenAI%E8%B4%A6%E5%8F%B7.png&quot; alt=&quot;注册&quot; /&gt;
+2、在新的页面可选择注册 &lt;code&gt;ChatGPT&lt;/code&gt; 账号的方式，可以使用邮箱(国内邮箱也可以，建议使用国外邮箱)，，或者有谷歌账号的邮箱，或者用 Microsoft Account 注册也可以。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676427844-%E9%80%89%E6%8B%A9%E5%88%9B%E5%BB%BAChatGPT%E8%B4%A6%E5%8F%B7%E7%9A%84%E6%96%B9%E5%BC%8F.png&quot; alt=&quot;选择创建ChatGPT账号的方式&quot; /&gt;
+&lt;strong&gt;使用邮箱注册ChatGPT时&lt;/strong&gt;，输入邮箱地址，点击&lt;code&gt;Continue&lt;/code&gt;，之后输入密码，进入下一步骤。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676428115-%E4%BD%BF%E7%94%A8%E9%82%AE%E7%AE%B1%E6%B3%A8%E5%86%8CChatGPT.png&quot; alt=&quot;使用邮箱注册ChatGPT&quot; /&gt;
+&lt;strong&gt;使用 Microsoft Account 注册ChatGPT时&lt;/strong&gt;，可以使用Microsoft账号登录，如果有Github账号的话，可点击&lt;code&gt;登录选项&lt;/code&gt;，然后选择使用Github账号 注册。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676428134-%E4%BD%BF%E7%94%A8Microsoft-Account%E6%B3%A8%E5%86%8CChatGPT.png&quot; alt=&quot;使用Microsoft-Account注册ChatGPT&quot; /&gt;
+&lt;strong&gt;使用 Google 账号注册ChatGPT时&lt;/strong&gt;，输入Google账号地址及密码，然后进入下一步骤。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676428153-%E4%BD%BF%E7%94%A8Google%E8%B4%A6%E5%8F%B7%E6%B3%A8%E5%86%8CChatGPT.png&quot; alt=&quot;使用Google账号注册ChatGPT&quot; /&gt;
+3、以&lt;strong&gt;使用邮箱注册ChatGPT&lt;/strong&gt;为例，输入邮箱需要在邮箱收到的邮件内点击验证，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676431622-%E9%AA%8C%E8%AF%81ChatGPT%E9%82%AE%E7%AE%B1.png&quot; alt=&quot;验证ChatGPT邮箱&quot; /&gt;
+4、然后继续在ChatGPT注册页面填入信息&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676431710-%E5%9C%A8ChatGPT%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%E5%A1%AB%E5%85%A5%E4%BF%A1%E6%81%AF.png&quot; alt=&quot;在ChatGPT注册页面填入信息&quot; /&gt;
+5、填写ChatGPT手机短信验证码&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676431788-%E5%A1%AB%E5%86%99ChatGPT%E6%89%8B%E6%9C%BA%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81.png&quot; alt=&quot;填写ChatGPT手机短信验证码&quot; /&gt;&lt;/p&gt;
+&lt;h5&gt;接收手机短信验证码&lt;/h5&gt;
+&lt;p&gt;需要使用中国以外的手机号码进行验证，例如美国、印度等，可以在俄罗斯的接码平台&lt;code&gt;sms-activate&lt;/code&gt;来完成，该网站支持中文/英文显示界面，支持支付宝，使用俄罗斯卢布计费。&lt;/p&gt;
+&lt;p&gt;1、现在就需要用到注册的第三方接码平台了，访问&lt;a href=&quot;https://sms-activate.org/?ref=5366293&quot;&gt; &lt;/a&gt;&lt;a href=&quot;https://sms-activate.org/?ref=5366293&quot;&gt;https://sms-activate.org/&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676432063-%E6%B3%A8%E5%86%8C%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8E%A5%E7%A0%81%E5%B9%B3%E5%8F%B0%E4%BA%86.png&quot; alt=&quot;注册的第三方接码平台了&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;2、注册完成后需要充值（按照 1 美元兑换 73 卢布），点击右上角**“ 余额充值 ”&lt;strong&gt;，使用支付宝充值 1 美元即可&lt;/strong&gt;（sms-activate.org平台规则发生变化，少于10美元充值，需最低充值2美元&amp;lt;2023.3.22&amp;gt;）**。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676432200-%E6%B3%A8%E5%86%8C%E5%AE%8C%E6%88%90%E5%90%8E%E9%9C%80%E8%A6%81%E5%85%85%E5%80%BC.png&quot; alt=&quot;注册完成后需要充值&quot; /&gt;
+3、在平台左侧搜索 OpenAI ，然后在国家那里找到Indonesia(印度尼西亚)，点击选择国家后面的加入购物车即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676432316-1676429348918.png&quot; alt=&quot;选择国家&quot; /&gt;
+4、然后等一会出现如下界面，这里的手机号拷贝出来，输入到上一步中注册OpenAI的界面上，然后点击 Send code按钮，&lt;strong&gt;在下图的界面中等待验证码短信发送&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676433066-%E6%8E%A5%E6%94%B6%E8%BE%93%E5%85%A5%E9%AA%8C%E8%AF%81%E7%A0%81.jpg&quot; alt=&quot;接收输入验证码&quot; /&gt;
+&lt;code&gt;注意：&lt;/code&gt;有效期是20分钟，需要快速操作，若两三分钟没有收到短信验证码，可点击旁边的删除按钮，然后再次选择别的手机号码，未收到验证不扣费。&lt;/p&gt;
+&lt;h4&gt;使用ChatGPT&lt;/h4&gt;
+&lt;p&gt;账号注册完成了，就可以尽情的使用ChatGPT来玩耍了，重新登录ChatGPT官网，然后&lt;a href=&quot;https://chat.openai.com&quot;&gt;访问Chat&lt;/a&gt;，这时你就可以开始尽情和机器人聊天了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676433542-%E4%BD%BF%E7%94%A8ChatGPT.png&quot; alt=&quot;使用ChatGPT&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;使用ChatGPT示例，如何写一个吸引人的 标题&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://www.pythonthree.com/wp-content/uploads/2023/02/1676440083-%E4%BD%BF%E7%94%A8ChatGPT%E7%A4%BA%E4%BE%8B.png&quot; alt=&quot;使用ChatGPT示例&quot; /&gt;&lt;/p&gt;
+&lt;h4&gt;总结&lt;/h4&gt;
+&lt;p&gt;以上是为你介绍的国内注册 ChatGPT 的方法，希望对你了解 ChatGPT 有所帮助，如有问题，欢迎联系我们。&lt;/p&gt;
+</content:encoded></item><item><title>Qv2ray客户端及内核下载</title><link>https://blog.ittst.com/posts/qv2ray-client-and-kernel-download/</link><guid isPermaLink="true">https://blog.ittst.com/posts/qv2ray-client-and-kernel-download/</guid><description>这篇文章介绍了Qv2ray，一个第三方图形化桌面客户端，基于V2ray官方内核，支持多种代理协议如vmess、SS、SSR、Trojan等，并可通过插件扩展功能。文章还提供了Qv2ray客户端和V2ray内核的下载链接。</description><pubDate>Fri, 07 Apr 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;关于Qv2ray&lt;/h3&gt;
+&lt;p&gt;在我们常用的PC系统上，比如Windows/Mac/Linux等系统平台，V2ray官方并没有发布图形化的桌面客户端。&lt;/p&gt;
+&lt;p&gt;V2rayN和Qv2ray等一些第三方工具，在V2ray官方内核的基础上，为我们提供了图形化界面支持，使用起来会更加方便。&lt;/p&gt;
+&lt;p&gt;其中Qv2ray除了支持V2ray的vmess协议外，还可以通过安装插件的方式，额外增加对SS/SSR/Trojan等代理协议的支持，可作为V2ray/SS/SSR/Trojan客户端使用。&lt;/p&gt;
+&lt;h3&gt;支持的协议&lt;/h3&gt;
+&lt;p&gt;Vmess（V2ray）
+SS（Shadowsocks）
+SSR（ShadowsocksR)
+Trojan
+Trojan-go
+NaiveProxy
+Vless&lt;/p&gt;
+&lt;h3&gt;下载&lt;/h3&gt;
+&lt;h4&gt;客户端下载&lt;/h4&gt;
+&lt;p&gt;https://github.com/Qv2ray/Qv2ray/releases&lt;/p&gt;
+&lt;h4&gt;内核下载&lt;/h4&gt;
+&lt;p&gt;https://github.com/v2fly/v2ray-core/releases/tag/v4.31.0&lt;/p&gt;
+</content:encoded></item><item><title>42个虚拟信用卡开卡渠道</title><link>https://blog.ittst.com/posts/42-virtual-credit-card-opening-channels/</link><guid isPermaLink="true">https://blog.ittst.com/posts/42-virtual-credit-card-opening-channels/</guid><description>这篇文章介绍了如何通过调整饮食习惯来改善睡眠质量。文章首先指出睡眠问题在现代社会中的普遍性，然后详细讨论了食物对睡眠的影响，包括哪些食物有助于促进睡眠，如富含色氨酸的食物和全谷物，以及应避免的食物，如含咖啡因和糖分高的食品。此外，文章还提到了饮食时间的重要性，建议晚餐不宜过晚或过饱。整体上，文章提供了实用的饮食建议，帮助读者通过调整饮食来获得更好的睡眠。</description><pubDate>Tue, 29 Nov 2022 00:00:00 GMT</pubDate><content:encoded>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;全球付
+http://www.globalcash.hk/
+在线申请，可充值，微信支付，开卡简单。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;爱汇旅之卡
+http://www.ihui.com/
+此卡是目前最方便容易获得，并大量获得的实体mastercard实体卡，可以直接联系客服大量拿卡，一次上百张甚至是数百张，该卡支持paypal、amazon、google等网站。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tap&amp;amp;go 拍住赏
+http://tapngo.com.hk/
+可以支持微信，amazon、applepay 国际阿里云 GCE aws paypal等大部分网站，需要认证，买卡可以去香港总部或者某宝，最低100余额 充值可在香港便利店充值或者网上找人代充！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;三三金融：
+https://cards.33finance.com
+需要到香港公司进行开卡，也可以找某宝，开出来的卡适用于大部分网站，包括欧贝通/amazon/阿里云/paypal/等等等等，充值也需要到香港便利店或者是到公司充，也可以找人代充。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tierrapay
+www.tierrapay.com卡段4665
+注册要用欧洲地址，比如英国，需要用pm或者是wmz充值，无需认证即可成功开卡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通汇香港
+https://www.transforex.hk/
+此卡要携带护照和身份证前往香港开通，该公司有礼品卡，固定金额每天限购买3张，经测试，此卡适用于paypal amazon ebay等平台&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Uphold www.uphold.com
+需要护照和地址证明申请，支持银行 比特币进行充值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Payeer
+http://www.zhesui.com/payeer/
+目前需要用欧洲国家的资料注册，&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Advcash
+目前需要用欧洲国家的资料注册&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Moneypolo
+http://www.zhesui.com/moneypolo/需要完成实名认证，以及收费购买。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wirexapp
+http://www.zhesui.com/wirex-app-visa/
+4665卡段，目前需要用欧洲国家地址注册申请。没认证只能比特币充值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Payoneer派安盈
+附带美国 日本 英国和欧洲银行账户
+http://www.payoneer.com/&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;okpay
+需要用护照通过实名认证才能开卡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Qiwi
+https://qiwi.com/
+需要俄罗斯电话卡注册成功才能开卡 （俄罗斯卡可以去淘宝买一个）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ecoPayz
+http://www.zhesui.com/ecopayz-card/
+目前需要认证，该卡支持大部分网站，可以无限移除替换卡片。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;浦发E-GO卡（需要有浦发实体卡）
+http://www.zhesui.com/e-go/
+该卡可以开出银联 mastercard visa AME 四种卡片&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Yandexmoney
+money.yandex.ru
+以上虚拟卡渠道基本都是国外电子钱包发行的，类似于国内的支付宝，不同的是除开少数几个支持人民币和国内银行充值的之外，其他基本都需要使用国外银行卡或者是电子钱包、信用卡充值，如果没有的话我们可以通过兑换的方式为该网站充值，具体兑换商可参照电子货币兑换网中国上面所说的兑换网站以及方法：电子货币兑换网中国：http://currencyexchange.net.cn/&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;VirtualCards（支持支付宝充值）
+https://VirtualCards.us
+50美元起充，注册成功无需充值既可出卡号&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;payweb
+http://payweb.com
+（需要付费、只有实体卡）可以用银联进行充值！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Solid Trust Pay
+http://SolidTrustPay.com&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Skrill（需要注册国外账户）
+http://www.skrill.com
+要注册欧洲国家的资料才有开卡选项。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Neteller（需要注册国外账户）
+www.neteller.com&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;v-preca（需要日本ip注册 少数中国卡能够充值）
+http://vpc.lifecard.co.jp&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mun-prepaid（需要日本ip注册）
+日元卡或者日本便利店充值
+www.mun-prepaid.com&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Giftcardmall
+www.giftcardmall.com
+此网站要美国信用卡或者是借记卡进行购买&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;netspend（需翻墙 国外身份认证）
+www.Netspend.com&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;vanilla（实体卡、需要国外身份或者是便利店购买）
+也可以找我们进行购买。
+www.vanilla.com&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通汇香港
+https://www.transforex.hk/
+此卡支持amazon googleplay paypal 等网站需要携带护照和身份证到香港总公司进行开卡！用身份证就能通过认证，可以开实体卡和虚拟卡&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Entropay 欧贝通
+www.Entropay.com
+不认证可以开五张卡，4067卡段，该卡可以用三三金融卡进行充值，可以自定义充值金额，认证过的账户可以开出10张卡片，可以自由决定充值的金额。欧贝通充值可以用 tapngo卡和三三金融进行充值，经本人测试是中国用户目前最好使的充值方法，tapngo和三三金融可以自行在香港购买。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;payoneer
+payoneer是目前非常不错的虚拟卡平台，身份证即可申请下来，遗憾的是申请到收到卡需要一个月左右的时间，值得一提的是payoneer更吸引我们的是他有美国银行账户、美元、欧元、日元、英镑银行账户可供我们申请选择，非常值得拥有。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mmvpaymmvpay
+是新加坡的虚拟卡平台可以开出mastercard 虚拟卡，需要新加坡手机号码注册！经过测试，账户不用认证，甚至是不用充值，一个账户直接可以获取5张卡片信息，包含卡号，有效期和卡密信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;paypal mastercard
+https://www.paypal.com/us/webapps/mpp/paypal-prepaid-mastercard
+此卡是paypal美国发行的mastercard，支持大部分网站消费，绑定以及验证，但是需要美国护照、身份和银行卡信息申请，并且是需要真实的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;amazon mastercard
+https://www.amazon.co.jp/
+三井住友カード株式会社-amazon-mastercardゴード/dp/b0092vb6vkAmazon mastercard是amazon日本网站发行的mastercard虚拟卡账户，同样是需要日本身份证护照地址证明才能申请下来，专门针对日亚的mastercard。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Cryptopaycryptopay
+是一个数字交易平台同属4665卡段的虚拟卡，不认证可以开出虚拟卡，但是前提是必须用欧洲国家的地址以及资料进行注册！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Capitalistcapitalist
+是一个俄罗斯的电子钱包工具，目前不认证一个账户可以开2张mastercard虚拟卡，分别是一张欧元的一张，一张美元的，认证过后可以开通四张卡片，两张实体卡和两张虚拟卡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Unichangeunichange
+是一个电子货币兑换平台，该平台提供欧元和美元两种币种的虚拟卡。Unichange.me如果你没有某些资料，某些材料，那么万能的商人一定可以满足的了你！&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PayzaPayza
+也是一个电子钱包工具，类似于paypal之类的电子 钱包，这边主要介绍payza发行的mastercard虚拟卡，申请虚拟卡需要身份证和信用卡认证，可以用预付卡能看得到自己姓名的信用卡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;mycard2go
+mycard2go是一个德国的虚拟卡，发卡行为wire bank ag卡种为visa，注册账户无需身份认证，但是需要进行充值了才能开卡，充值成功后自动开通卡片，卡种为欧元，需要用KLARNA网银或者是当地现金进行充值，也可以进行网银。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Vandle
+https://app.vandle.jp/
+vandle是一家日本的虚拟卡提供平台，它提供mastercard虚拟卡片，需要再日本的便利店进行充值，也可以用日本的信用卡网银进行充值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Chocom
+http://www.chocom.jp/index.html
+Chocom也是一家日本的虚拟卡，可以在日本的便利店，或者是日本信用卡以及Chocom电子钱包进行充值。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Docomokouza
+docomokouza为日本docomo发行的visa虚拟信用卡，甚至是注册无需审查即可申请visa虚拟卡，最短有效期仅10天，还有一种则为3年需要日本的电子货币或者是信用卡对其进行充值。
+https://docomokouza.jpmastercard借记卡&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Nttsmarttrade
+nttsmarttrade是一家日本的在线虚拟卡平台，支持中文界面，非常方便，需要用日本信用卡段进行充值，中国和日本以外的mastercard无法进行充值。http://www.nttsmarttrade.co.jp/mastercardnet/cn/&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</content:encoded></item><item><title>centos7安装后没有网络</title><link>https://blog.ittst.com/posts/there-is-no-network-after-installs7-installation/</link><guid isPermaLink="true">https://blog.ittst.com/posts/there-is-no-network-after-installs7-installation/</guid><description>这篇文章介绍了如何以root账号登录系统，使用ip addr命令查看网络参数，并打开eth0网卡的配置文件。文章还指导了如何将NOBOOT参数从no修改为yes，以及通过重启网络或服务器来应用这些更改。</description><pubDate>Tue, 29 Nov 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;以&lt;code&gt;root&lt;/code&gt;账号登陆
+用&lt;code&gt;ip addr&lt;/code&gt;命令查看网络参数。
+打开&lt;code&gt;eth0&lt;/code&gt;网卡的配置文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vi /etc/sysconfig/network-scripts/ifcfg-eth0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;把&lt;code&gt;NOBOOT&lt;/code&gt;参数&lt;code&gt;no&lt;/code&gt;，修改为&lt;code&gt;yes&lt;/code&gt;
+重启网络或者重启服务器都可&lt;/p&gt;
+</content:encoded></item><item><title>macOS与Windows双系统时间不同步的解决办法</title><link>https://blog.ittst.com/posts/macos-and-windows-dual-systems-are-not-synchronized/</link><guid isPermaLink="true">https://blog.ittst.com/posts/macos-and-windows-dual-systems-are-not-synchronized/</guid><description>这篇文章介绍了在Windows系统中，通过右键点击开始菜单并选择“终端（管理员）”来执行某些操作的方法，并建议重启电脑以应用更改。</description><pubDate>Tue, 15 Nov 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在windows下
+右键点击开始菜单，选择终端（管理员）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;回车搞定！重启试试！&lt;/p&gt;
+</content:encoded></item><item><title>VK23黑苹果OpenCore0.8.5引导macOS12.6.1</title><link>https://blog.ittst.com/posts/vk23-black-apple-opencore0.8.5-guide-macos12.6.1/</link><guid isPermaLink="true">https://blog.ittst.com/posts/vk23-black-apple-opencore0.8.5-guide-macos12.6.1/</guid><description>这篇文章介绍了将网卡更换为DW1560的过程，并提供了相关的截图链接。文章还列出了更换网卡后设备正常工作的各项功能，包括显卡、声卡、有线网卡、无线网卡、摄像头、读卡器、蓝牙和隔空投送。</description><pubDate>Tue, 08 Nov 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;配置&lt;/h2&gt;
+&lt;p&gt;网卡更换为DW1560&lt;/p&gt;
+&lt;h2&gt;截图&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888431.png&quot; alt=&quot;1.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888431.png&quot; alt=&quot;QQ20221108-141421.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888432.png&quot; alt=&quot;QQ20221108-141440.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888433.png&quot; alt=&quot;QQ20221108-141449.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888433.png&quot; alt=&quot;QQ20221108-141458.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888434.png&quot; alt=&quot;QQ20221108-141507.png&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/11/08/1667888434.png&quot; alt=&quot;QQ20221108-141517.png&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;&lt;/h2&gt;
+&lt;p&gt;正常工作
+1.显卡
+2.声卡
+3.有线网卡
+4.无线网卡
+5.摄像头
+6.读卡器
+7.蓝牙
+8.隔空投送&lt;/p&gt;
+</content:encoded></item><item><title>华硕b150m-et m2+rx560黑苹果oc0.8.5引导</title><link>https://blog.ittst.com/posts/asus-b150m-et-m2+rx560-black-apple-oc0.8.5-guide/</link><guid isPermaLink="true">https://blog.ittst.com/posts/asus-b150m-et-m2+rx560-black-apple-oc0.8.5-guide/</guid><description>这篇文章介绍了作者的电脑配置，包括CPU、主板、内存、硬盘、显卡、网卡、电源和机箱等硬件信息。文章还提到了机箱的散热问题，以及通过BIOS设置优化系统性能的具体步骤，如关闭CSM兼容性、VT-D等。此外，文章还分享了已成功驱动的硬件列表，如声卡、网卡、显卡等，并提供了引导下载的链接。</description><pubDate>Fri, 21 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;配置如下&lt;/h2&gt;
+&lt;p&gt;cpu：魔改qhpw 2.2g hz
+主板：华硕b150m-et m2
+内存：8g ddr4 2133mhz
+硬盘：nvme 256gb ssd
+显卡：肥猫家rx560 4gb
+网卡：bcm94360cd
+电源：长城额定300w
+机箱：乔思伯c2黑色&lt;/p&gt;
+&lt;p&gt;乔思伯这个机箱是个大闷罐，但是显卡功耗低，双烤温度最高75摄氏度&lt;/p&gt;
+&lt;h2&gt;截图&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;https://blogcdn.asbid.cn/2022/10/21/1666335477.jpg&quot; alt=&quot;Jietu20221020-144354.jpg&quot; /&gt;
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/10/21/1666335487.jpg&quot; alt=&quot;Jietu20221021-145738.jpg&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;bios设置&lt;/h2&gt;
+&lt;p&gt;关闭  CSM兼容性
+关闭  VT-D
+关闭  串口
+打开  USB handoff
+关闭  CFG LOCK&lt;/p&gt;
+&lt;h2&gt;已驱动&lt;/h2&gt;
+&lt;p&gt;声卡
+网卡
+显卡
+电源管理
+显卡加速
+&lt;img src=&quot;https://blogcdn.asbid.cn/2022/10/21/1666337330.jpg&quot; alt=&quot;Jietu20221021-152807.jpg&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;引导下载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://bbs.dasbid.com/thread/22&quot;&gt;下载地址&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>office2016 Mac 版本下载安装及破解激活</title><link>https://blog.ittst.com/posts/office2016-mac-version-download,-install,-crack-activation/</link><guid isPermaLink="true">https://blog.ittst.com/posts/office2016-mac-version-download,-install,-crack-activation/</guid><description>这篇文章提供了Microsoft Office 2016 for Mac的安装包下载地址和一个激活工具的百度网盘链接及密码。安装包地址为http://officecdn.microsoft.com/sg/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Office_2016_15.29.16120900_Installer.pkg，激活工具链接为https://pan.baidu.com/s/1ragcr1M，密码是rcb2。</description><pubDate>Fri, 14 Oct 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;一、安装包下载地址&lt;/p&gt;
+&lt;p&gt;http://officecdn.microsoft.com/sg/C1297A47-86C4-4C1F-97FA-950631F94777/OfficeMac/Microsoft_Office_2016_15.29.16120900_Installer.pkg&lt;/p&gt;
+&lt;p&gt;二、激活工具&lt;/p&gt;
+&lt;p&gt;[hide]
+链接: https://pan.baidu.com/s/1ragcr1M&lt;/p&gt;
+&lt;p&gt;密码: rcb2
+[/hide]&lt;/p&gt;
+</content:encoded></item><item><title>Typecho插件CommentsByQQ修改版</title><link>https://blog.ittst.com/posts/typecho-plug--in-commentsbyqq-modified-version/</link><guid isPermaLink="true">https://blog.ittst.com/posts/typecho-plug--in-commentsbyqq-modified-version/</guid><description>这篇文章介绍了作者基于Typecho插件CommentsByQQ的修改版本，旨在通过QQ机器人接收评论通知。由于原插件的QQ机器人已失效，作者自行搭建了一个基于go-http的QQ机器人，并提供了使用方法和下载地址。</description><pubDate>Mon, 19 Sep 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;简介&lt;/h2&gt;
+&lt;p&gt;基于Typecho插件CommentsByQQ修改
+一直想让qq来通知评论消息。毕竟邮箱之类的还是不太方便。
+原作者的插件QQ机器人已经挂了。所以我自己搭建了一个基于go-http的QQ机器人
+由于本人也是菜鸟，没有后续&lt;/p&gt;
+&lt;h2&gt;使用&lt;/h2&gt;
+&lt;p&gt;添加qq机器人153985848为好友
+在后台设置中填写接收消息的qq号即可&lt;/p&gt;
+&lt;h2&gt;下载地址&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://blogcdn.asbid.cn/2022/09/28/1664332031.zip&quot;&gt;CommentsByQQ.zip&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>centos7 ssh连接慢的解决方法</title><link>https://blog.ittst.com/posts/the-solution-of-the-cantos7-ssh-connection-is-slow/</link><guid isPermaLink="true">https://blog.ittst.com/posts/the-solution-of-the-cantos7-ssh-connection-is-slow/</guid><description>这篇文章介绍了在Linux系统中修改SSH配置文件的步骤，包括取消注释并修改UseDNS选项为no，以及将GSSAPIAuthentication选项也改为no，最后保存并退出编辑器，重启系统以应用更改。</description><pubDate>Fri, 12 Aug 2022 00:00:00 GMT</pubDate><content:encoded>&lt;pre&gt;&lt;code&gt;vim /etc/ssh/sshd_config
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;按i编辑插入
+找到
+&lt;code&gt;UseDNS&lt;/code&gt;去掉前面的#号 改为 no&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;GSSAPIAuthentication&lt;/code&gt; 改为 no&lt;/p&gt;
+&lt;p&gt;然后&lt;code&gt;：wq &lt;/code&gt;保存退出&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;systemctl restart sshd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重启&lt;/p&gt;
+</content:encoded></item><item><title>Linux下本地安装包命令</title><link>https://blog.ittst.com/posts/local-installation-package-command-under-linux/</link><guid isPermaLink="true">https://blog.ittst.com/posts/local-installation-package-command-under-linux/</guid><description>这篇文章介绍了在CENTOS系统下如何安装RPM安装包，以及在UBUNTU系统下如何安装DEB安装包。文章可能详细说明了安装步骤和命令，帮助用户在不同Linux发行版上进行软件包的安装。</description><pubDate>Wed, 27 Jul 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;centos下安装RPM安装包&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;sudo yum localinstall file.rpm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;ubuntu下安装deb安装包&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt; sudo dpkg -i 安装包名称.deb
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>黑苹果固态避坑指南</title><link>https://blog.ittst.com/posts/black-apple-solid--state-pit-guideline/</link><guid isPermaLink="true">https://blog.ittst.com/posts/black-apple-solid--state-pit-guideline/</guid><description>这篇文章介绍了多个型号的固态硬盘（SSD）与macOS的兼容性问题，包括三星、镁光、爱国者等品牌的特定型号在安装和运行macOS时可能遇到的问题。文章还提到了一些型号需要升级固件或使用特定的kext文件来解决兼容性问题，以及关于TRIM支持的详细信息，包括哪些型号完全支持或不完全支持TRIM功能。此外，文章还列出了一些能够正常安装和运行macOS的SSD型号。</description><pubDate>Tue, 12 Apr 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;PM961&lt;/code&gt; / &lt;code&gt;PM981&lt;/code&gt; / &lt;code&gt;PM981a&lt;/code&gt; / &lt;code&gt;PM991&lt;/code&gt; 会导致 macOS 无法安装或正常运行&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;983ZET&lt;/code&gt;无法安装 macOS；&lt;/p&gt;
+&lt;p&gt;2019 年 5 月以前出厂的 &lt;code&gt;三星&lt;/code&gt; &lt;code&gt;970 EVO Plus&lt;/code&gt;  可能存在和 &lt;code&gt;PM9x1&lt;/code&gt; 系列类似的问题，但可以通过在Windows环境升级官方固件解决 macOS 兼容问题；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;镁光&lt;/code&gt; &lt;code&gt;2200S &lt;/code&gt;无法安装或稳定运行 macOS；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;爱国者&lt;/code&gt; &lt;code&gt;P2000 256GB &lt;/code&gt;无法通过 10.15、11.x、12.x 任何一个版本的正常安装流程，但不排除个例的可能；&lt;/p&gt;
+&lt;p&gt;macOS 不支持使用 &lt;code&gt;Intel&lt;/code&gt; &lt;code&gt;傲腾&lt;/code&gt;（Optane Memory）或&lt;code&gt;镁光&lt;/code&gt; &lt;code&gt;3D XPoint&lt;/code&gt; 进行加速的笔记本电脑；&lt;/p&gt;
+&lt;h3&gt;下面的型号是与 macOS IONVMeFamily 兼容性不佳的型号（可能无故卡住或运行不正常）&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;英特尔&lt;/code&gt; &lt;code&gt;600P/660P/760P 系列&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;金士顿&lt;/code&gt; &lt;code&gt;A2000&lt;/code&gt;：配置 &lt;code&gt;S5Z42105 &lt;/code&gt;控制器的版本必须搭配&lt;code&gt; NVMeFix.kext 1.0.8&lt;/code&gt; 及以上，也可能完全无法安装；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;海力士&lt;/code&gt; &lt;code&gt;PC601/PC611/PC711/BC501&lt;/code&gt;：主要见于联想和戴尔笔记本，部分批次正常部分会卡住；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;技嘉&lt;/code&gt; &lt;code&gt;GIGABYTE M.2 PCIe SSD&lt;/code&gt;（比如 &lt;code&gt;GP-GSM2NE8512GNTD&lt;/code&gt;）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;威刚&lt;/code&gt; &lt;code&gt;剑鱼 ADATA Swordfish 2 TB M.2-2280&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;海力士&lt;/code&gt; &lt;code&gt;SK Hynix HFS001TD9TNG-L5B0B&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;海力士&lt;/code&gt; &lt;code&gt;SK Hynix P31&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;镁光&lt;/code&gt; &lt;code&gt;Micron 2200V MTFDHBA512TCK&lt;/code&gt; -&lt;code&gt;移速的256G&lt;/code&gt;同样使用的镁光颗粒无法安装；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;阿斯加特&lt;/code&gt; &lt;code&gt;Asgard AN3+ (STAR1000P)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;朗科&lt;/code&gt; &lt;code&gt;Netac NVME SSD 480&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;西部数据&lt;/code&gt; &lt;code&gt;SN550/570/730/750/850 &lt;/code&gt;都能正常安装和运行 macOS；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;970EVO/Pro/Plus&lt;/code&gt;（升级固件后）和 &lt;code&gt;980/980 Pro&lt;/code&gt; 都能正常安装和运行 macOS，但是此系列存在 &lt;code&gt;TRIM &lt;/code&gt;支持问题；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;海盗船&lt;/code&gt; &lt;code&gt;MP400/MP600 &lt;/code&gt;系列均能正常安装运行 macOS；&lt;/p&gt;
+&lt;p&gt;绝大部分常见的 SATA 接口固态盘都能正常安装和运行 macOS；&lt;/p&gt;
+&lt;h3&gt;不完全支持&lt;code&gt; TRIM&lt;/code&gt;（主要影响特定条件下的写入速度，什么是 TRIM？），但安装运行正常的型号：&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;Samsung 950 Pro&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;Samsung 960 Evo/Pro&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; &lt;code&gt;Samsung 970 Evo/Pro&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;「重要提示」在 &lt;code&gt;macOS 12.0&lt;/code&gt; 及以上版本中，OpenCore 无法再修改 APFS 文件系统的 &lt;code&gt;TRIM &lt;/code&gt;超时数值，部分执行 &lt;code&gt;TRIM &lt;/code&gt;相对较慢的固态硬盘（主要是三星的控制器）将没有足够的时间执行 &lt;code&gt;TRIM&lt;/code&gt; 操作。
+不正确的设置可能导致进入系统缓慢，因此对 macOS &lt;code&gt;TRIM &lt;/code&gt;支持度不佳的硬盘建议将 &lt;code&gt;SetApfsTrimTimeout &lt;/code&gt;值改成 0 以关闭 &lt;code&gt;TRIM&lt;/code&gt;，或 -1 以关闭该功能。此现象在 &lt;code&gt;12.3&lt;/code&gt; 及以上的版本中尤其明显。&lt;/p&gt;
+&lt;h3&gt;完整支持 macOS TRIM 的型号：&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;西部数据&lt;/code&gt; SN5xx/7xx 系列（未完全测试）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;英睿达&lt;/code&gt; Crucial P1 1TB NVME（SM2263EN，未完全测试）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;金典&lt;/code&gt; KingDian S280（SATA）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;浦科特&lt;/code&gt; PLEXTOR M5Pro（SATA）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; Samsung 850 PRO（SATA，未完全测试）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;三星&lt;/code&gt; Samsung 870 EVO（SATA，未完全测试）&lt;/p&gt;
+</content:encoded></item><item><title>2023年黑苹果amd免驱显卡购买推荐</title><link>https://blog.ittst.com/posts/2023-black-apple-amd--free-drived-card-buying-recommendation/</link><guid isPermaLink="true">https://blog.ittst.com/posts/2023-black-apple-amd--free-drived-card-buying-recommendation/</guid><description>这篇文章介绍了不同系列的AMD显卡及其在各个macOS版本中的支持情况。包括NAVI 20系列、NAVI 10系列、VEGA 20系列、VEGA 10系列、Polaris架构系列、R7/R9系列、HD 8000系列和HD 7000系列显卡，以及它们在特定操作系统版本下的兼容性和可能需要的特殊启动参数。</description><pubDate>Fri, 21 Jan 2022 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;Navi 20系列 从bigsur开始支持&lt;/h2&gt;
+&lt;p&gt;RX 6600
+RX 6600 XT
+RX 6800
+RX 6800 XT
+RX 6900 XT&lt;/p&gt;
+&lt;h2&gt;Navi 10系列 从Catalina开始支持&lt;/h2&gt;
+&lt;p&gt;RX 5500
+RX 5500 XT
+RX 5600
+RX 5600 XT
+RX 5700
+RX 5700 XT
+RX 5700 XT 50周年纪念版
+如遇到黑屏，需要boot参数agdpmod=pikera才能正确显示&lt;/p&gt;
+&lt;h2&gt;Vega 20系列 从Mojave开始支持&lt;/h2&gt;
+&lt;p&gt;Radeon VII&lt;/p&gt;
+&lt;h2&gt;Vega 10系列 从High Sierra开始支持&lt;/h2&gt;
+&lt;p&gt;Vega 64 Liquid
+Vega 64
+Vega 56
+Vega Frontier Edition
+Radeon Pro WX 9100
+Radeon Pro WX 7100
+##　Polaris架构10和20系列　从Sierra开始支持
+400系列：&lt;/p&gt;
+&lt;p&gt;RX 480
+RX 470D
+RX 470
+RX 460
+RX 590
+RX 580X
+RX 580
+RX 570X
+RX 570
+RX 560X
+RX 560
+WX 5100
+WX 4100
+E9550&lt;/p&gt;
+&lt;p&gt;还有些同Polaris核心的
+rx550&lt;/p&gt;
+&lt;h2&gt;R7 / R9系列 从Yosemite开始支持&lt;/h2&gt;
+&lt;p&gt;R9 Fury X
+R9 Fury
+R9 Nano
+R9 390（需要FakeID）
+R9 290X / 390X
+R9 290/390（需提供FakeID）
+R9 280x / 380x（不一定成功）
+R9 280/380（需要FakeID）
+R9 270X / 370X
+R7 270/370（需提供FakeID）
+R7 265
+R7 260x / 360x
+R9 260/360（根据型号可能需要FakeID）
+R9 255
+R7 250X
+R7 250（需提供FakeID）
+R7 240（需要FakeID）&lt;/p&gt;
+&lt;h2&gt;HD 8000系列 从Mountain Lion开始支持&lt;/h2&gt;
+&lt;p&gt;HD 8740
+HD 8760
+HD 8770
+HD 8850
+HD 8870
+HD 8890
+HD 8950
+HD 8970&lt;/p&gt;
+&lt;h2&gt;HD 7000系列 从Mountain Lion开始支持&lt;/h2&gt;
+&lt;p&gt;Dual AMD FirePro D300
+Dual AMD FirePro D500
+Dual AMD FirePro D700
+FirePro W5100(FakeID needed)
+FirePro W7000
+FirePro W9000
+HD 7700
+HD 7730
+HD 7750
+HD 7770
+HD 7790
+HD 7850
+HD 7870
+HD 7870 XT
+HD 7950
+HD 7970
+HD 7990&lt;/p&gt;
+</content:encoded></item><item><title>NEC VK22 黑苹果opencore引导</title><link>https://blog.ittst.com/posts/nec-vk22-black-apple-opencore-guide/</link><guid isPermaLink="true">https://blog.ittst.com/posts/nec-vk22-black-apple-opencore-guide/</guid><description>这篇文章介绍了如何在安装黑苹果前解锁CFGLock，以及使用NVME固态硬盘的优化方法。通过将U盘格式化为FAT32并复制OC引导文件，设置U盘为第一启动项，可以提升读写速度且不需修改BIOS。文章还提到了笔记本黑苹果安装中的难点，如注入EDID，并分享了已驱动的硬件列表和EFI文件下载链接。</description><pubDate>Sun, 10 Oct 2021 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;关于解锁&lt;/h2&gt;
+&lt;p&gt;安装之前要解锁cfglock&lt;/p&gt;
+&lt;h2&gt;关于nvme固态的使用&lt;/h2&gt;
+&lt;p&gt;思路就是用一个U盘格式化成FAT32格式&lt;/p&gt;
+&lt;p&gt;把oc引导复制在U盘中。&lt;/p&gt;
+&lt;p&gt;在BIOS中把U盘启动设为第一启动项&lt;/p&gt;
+&lt;p&gt;这样做得好处是不用修改BIOS直接使用nvme的固态提升读写速度&lt;/p&gt;
+&lt;p&gt;坏处就是占用一个USB口&lt;/p&gt;
+&lt;h2&gt;其他&lt;/h2&gt;
+&lt;p&gt;笔记本黑苹果的难点就在于注入edid。&lt;/p&gt;
+&lt;p&gt;我的做法是在clover下安装好macos之后再用hackintool注入EDID，然后再转为opencore引导。&lt;/p&gt;
+&lt;p&gt;其他都很简单我就不多说了。&lt;/p&gt;
+&lt;p&gt;附上EFI文件，三码自己改&lt;/p&gt;
+&lt;h2&gt;已驱动&lt;/h2&gt;
+&lt;p&gt;显卡
+声卡
+网卡 （已更换DW1820A）
+读卡器
+USB
+触摸板&lt;/p&gt;
+&lt;h2&gt;下载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://blogcdn.asbid.cn/2021/12/03/1638521042.zip&quot;&gt;请打赏后下载&lt;/a&gt;&lt;/p&gt;
+</content:encoded></item><item><title>记一次亿储SSD固态掉盘修复（重新开卡）</title><link>https://blog.ittst.com/posts/remember-to-restore-the-ssd-ssd-solid-state-(re--opening-the-card)/</link><guid isPermaLink="true">https://blog.ittst.com/posts/remember-to-restore-the-ssd-ssd-solid-state-(re--opening-the-card)/</guid><description>这篇文章介绍了老孙在闲鱼购买了一块二手SSD并尝试安装黑苹果系统，但遇到硬盘识别问题。通过拆解硬盘、短接主控、使用开卡软件等步骤，最终成功修复了固态硬盘的问题。文章还提供了所需物料清单、操作步骤和相关教程链接。</description><pubDate>Thu, 01 Aug 2019 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;老孙在闲鱼淘了一块二手的SSD，本来准备用来安装黑苹果使用。
+刚开始安装挺顺利，安装的是OSX 12.13.6，分区格式APFS。
+笔记本没有息屏就上班去了。
+下班回来一看界面卡死。于是只有强行关机重启。
+这下问题来了，识别不了硬盘了。
+百度出的原因就是固态硬盘掉盘。是二三线固态厂商的通病。再次建议大家还是买大厂的产品。
+有教程说30分钟拯救固态。试了一晚上不行。
+看了第二种方法就是去开卡量产。
+摸索了一晚上终于成功了！！！&lt;/p&gt;
+&lt;h2&gt;所需物料&lt;/h2&gt;
+&lt;hr /&gt;
+&lt;p&gt;硬盘盒（USB转接卡） 螺丝刀（拆硬盘用） 开卡软件（文章末尾下载）
+1 首先把硬盘拆开 拆开硬盘发现主控是慧荣sm 2246XT（其实百度也可以百度到，如果是正品的话……）
+&lt;img src=&quot;https://xy07-1251893119.costj.myqcloud.com/2019/08/01/868332940.jpg&quot; alt=&quot;103_2877224_9e544a870ce08b2.jpg&quot; /&gt;
+图是网上找的，主控型号一般会印在主控芯片上，也就是那个小的。
+2 短接JP1，PCB上一般会有标注，如果和我的硬盘一样的话就短接最上面两个（懒 没有作图 网图）
+3 接上硬盘盒 打开开卡软件sm2246XT_MPTool_O1224H
+4 识别到port1之后 不用短接
+&lt;img src=&quot;https://xy07-1251893119.costj.myqcloud.com/2019/08/01/3281558957.png&quot; alt=&quot;QQ浏览器截图20190801131230.png&quot; /&gt;
+5 此时应该在Parameter里面选择一个合适的flash型号，直接开卡就会成功
+&lt;img src=&quot;https://xy07-1251893119.costj.myqcloud.com/2019/08/01/252432522.png&quot; alt=&quot;103_2877224_bd107f5920c8e54.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;参考教程链接&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;http://www.upantool.com/jiaocheng/ssd/2017/10569.html
+http://bbs.mydigit.cn/read.php?tid=2367269&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;开卡工具下载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://xy07-1251893119.costj.myqcloud.com/2019/08/01/2111427864.zip&quot;&gt;sm2246XT_MPTool_O1224H.zip&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://xy07-1251893119.costj.myqcloud.com/2020/12/21/3940912839.jpg&quot; alt=&quot;bg.jpg&quot; /&gt;&lt;/p&gt;
+</content:encoded></item><item><title>Cloud Torrent for centos一键安装</title><link>https://blog.ittst.com/posts/cloud-torrent-for-centos-one--click-installation/</link><guid isPermaLink="true">https://blog.ittst.com/posts/cloud-torrent-for-centos-one--click-installation/</guid><description>这篇文章介绍了如何安装和使用Cloud Torrent，一个支持BT和磁力链接下载、离线下载及边下边播的工具。文章详细说明了系统需求、脚本版本、特点、安装步骤、使用说明以及注意事项。Cloud Torrent通过Web UI提供可视化界面，支持搜索磁力链接，但主要针对国外资源。文章还提到了使用该工具时可能遇到的网络问题和版权风险。</description><pubDate>Sat, 27 May 2017 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;支持 离线下载 BT和磁力链接和边下边播 的老司机坐骑 —— Cloud Torrent
+声明：本文章仅提供 BT/磁力链接 下载工具的安装方法和说明，任何使用此工具 下载版权侵权文件或导致任何经济损失，皆和本人无任何关系！如果你不同意或有异议，请关闭这个网页！
+&lt;img src=&quot;https://xy07-1251893119.costj.myqcloud.com/2017/05/27/823290012.png&quot; alt=&quot;10-1.png&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;系统需求
+CentOS / Debian / Ubuntu 都可以，因为是 Go语言写的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;脚本版本：
+Ver: 1.0.3&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Cloud Torrent特点
+支持 BT下载
+支持 磁力链接下载
+支持 搜索磁力链接
+支持 离线下载
+支持 边下边播( 格式限制：mp4/wbem/ogg，同时需要手动输入链接)
+可视化界面 Web UI&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装步骤&lt;/p&gt;
+&lt;p&gt;wget -N --no-check-certificate https://www.xuanlove.download/sh/cloudt.sh &amp;amp;&amp;amp; chmod +x cloudt.sh &amp;amp;&amp;amp; bash cloudt.sh&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下载运行完毕脚本，就会直接开始安装 Cloud Torrent ，安装过程中如果出现让你选择Y和N的，都选Y。
+安装完成之后，就会提醒你，输入要开放的端口（推荐：默认 8000）
+启动后，访问 http://VPS_IP:8000 即可看到Web UI界面了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;脚本使用说明&lt;/p&gt;
+&lt;p&gt;bash cloudt.sh
+#可以直接输入这个命令，会自动判断是否需要 安装/启动/停止 Cloud Torrent
+ 
+bash cloudt.sh install
+#安装 Cloud Torrent
+ 
+bash cloudt.sh start
+#启动 Cloud Torrent
+ 
+bash cloudt.sh stop
+#停止 Cloud Torrent
+ 
+bash cloudt.sh tail
+#查看 Cloud Torrent 日志
+ 
+bash cloudt.sh uninstall
+#卸载 Cloud Torrent&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Cloud Torrent使用说明
+Cloud Torrent可以直接在输入中输入 磁力链接 或者 在线的BT种子（不支持本地上传），点击下面的 蓝色的按钮，就会开始解析资源。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;按钮说明&lt;/h2&gt;
+&lt;p&gt;成功解析后，就会显示如下的界面，开始下载。
+Files 是查看正在下载的文件列表， Start 是启动下载（默认解析后直接启动下载）， Stop 是停止下载。
+还有，如果你下载完毕或者点了 Stop 停止下载，那么 Stop 就会变成 Remove 删除任务的按钮了。&lt;/p&gt;
+&lt;h2&gt;搜索磁力链接&lt;/h2&gt;
+&lt;p&gt;Cloud Torrent支持搜索磁力链接，在输入栏中直接输入你要搜索的文件名称，同时点击 绿色的按钮 选择一个搜索源，然后点击 蓝色的Search 按钮就可以搜索了。
+注意：Cloud Torrent是国外人写的，所以这些搜索源均是国外的磁力链接网站，搜索到的资源基本没有中文的，所以非特殊需求的这个功能就没什么卵用了。&lt;/p&gt;
+&lt;h2&gt;注意事项&lt;/h2&gt;
+&lt;p&gt;BT和磁力链接的速度是和， 磁力链接/BT 的用户上传共享量 和 中心服务器的宽带质量，以及你下载 磁力链接/BT 的VPS的宽带有关系。
+这种软件在某些程度上比不上 国内的迅雷，毕竟迅雷 用户了很大共享了很多的上传速度，而且还有缓存的中心服务器，所以才会那么快。
+如果你是国外的VPS，特别是美国的，一定要注意下载 BT/磁力链接 容易遇到蜜罐，然后被投诉封VPS。建议使用欧洲的罗马尼亚，那里的VPS无视版权，当然拉回本地，速度肯定也不会多快&lt;/p&gt;
+&lt;h1&gt;无法访问你的 http://IP:端口&lt;/h1&gt;
+&lt;p&gt;可能是防火墙规则的问题，使用下面这个命令来开放端口&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;iptables -I INPUT -p tcp --dport 端口 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>Vi编辑器的基本使用方法</title><link>https://blog.ittst.com/posts/vi-editor&apos;s-basic-usage-method/</link><guid isPermaLink="true">https://blog.ittst.com/posts/vi-editor&apos;s-basic-usage-method/</guid><description>这篇文章介绍了如何通过优化网站内容和结构来提高搜索引擎排名，包括关键词研究、内容创作、内部链接策略和外部链接建设等方法。文章还提到了SEO工具的使用和持续监控网站表现的重要性，以确保长期的成功。</description><pubDate>Wed, 16 Nov 2016 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;vi编辑器是所有Unix及Linux系统下标准的编辑器，它的强大不逊色于任何最新的文本编辑器，这里只是简单地介绍一下它的用法和一小部分指令。
+由于对Unix及Linux系统的任何版本，vi编辑器是完全相同的，因此您可以在其他任何介绍vi的地方进一步了解它。
+Vi也是Linux中最基本的文本编辑器，学会它后，您将在Linux的世界里畅行无阻。&lt;/p&gt;
+&lt;p&gt;1、vi的基本概念&lt;/p&gt;
+&lt;p&gt;基本上vi可以分为三种状态，分别是命令模式（command mode）、插入模式（Insert mode）和底行模式（last line mode），各模式的功能区分如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;命令行模式command mode）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;控制屏幕光标的移动，字符、字或行的删除，移动复制某区段及进入Insert mode下，或者到 last line mode。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;插入模式（Insert mode）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;只有在Insert mode下，才可以做文字输入，按「ESC」键可回到命令行模式。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;底行模式（last line mode）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;将文件保存或退出vi，也可以设置编辑环境，如寻找字符串、列出行号……等。 不过一般我们在使用时把vi简化成两个模式，就是将底行模式（last line mode）也算入命令行模式command mode）。&lt;/p&gt;
+&lt;p&gt;2、vi的基本操作&lt;/p&gt;
+&lt;p&gt;a) 进入vi 在系统提示符号输入vi及文件名称后，就进入vi全屏幕编辑画面： $ vi myfile 不过有一点要特别注意，就是您进入vi之后，是处于「命令行模式（command mode）」，您要切换到「插入模式（Insert mode）」才能够输入文字。初次使用vi的人都会想先用上下左右键移动光标，结果电脑一直哔哔叫，把自己气个半死，所以进入vi后，先不要乱动，转换到「插入模式（Insert mode）」再说吧！&lt;/p&gt;
+&lt;p&gt;b) 切换至插入模式（Insert mode）编辑文件 在「命令行模式（command mode）」下按一下字母「i」就可以进入「插入模式（Insert mode）」，这时候你就可以开始输入文字了。&lt;/p&gt;
+&lt;p&gt;c) Insert 的切换 您目前处于「插入模式（Insert mode）」，您就只能一直输入文字，如果您发现输错了字！想用光标键往回移动，将该字删除，就要先按一下「ESC」键转到「命令行模式（command mode）」再删除文字。&lt;/p&gt;
+&lt;p&gt;d) 退出vi及保存文件&lt;/p&gt;
+&lt;p&gt;在「命令行模式（command mode）」下，按一下「：」冒号键进入「Last line mode」，例如：&lt;/p&gt;
+&lt;p&gt;w filename （输入 「w filename」将文章以指定的文件名filename保存）&lt;/p&gt;
+&lt;p&gt;wq (输入「wq」，存盘并退出vi)&lt;/p&gt;
+&lt;p&gt;q! (输入q!， 不存盘强制退出vi)&lt;/p&gt;
+&lt;p&gt;3、命令行模式（command mode）功能键&lt;/p&gt;
+&lt;p&gt;1）. 插入模式 按「i」切换进入插入模式「insert mode」，按“i”进入插入模式后是从光标当前位置开始输入文件； 按「a」进入插入模式后，是从目前光标所在位置的下一个位置开始输入文字； 按「o」进入插入模式后，是插入新的一行，从行首开始输入文字。&lt;/p&gt;
+&lt;p&gt;2）. 从插入模式切换为命令行模式 按「ESC」键。&lt;/p&gt;
+&lt;p&gt;3）. 移动光标 vi可以直接用键盘上的光标来上下左右移动，但正规的vi是用小写英文字母「h」、「j」、「k」、「l」，分别控制光标左、下、上、右移一格。 按「ctrl」+「b」：屏幕往“后”移动一页。 按「ctrl」+「f」：屏幕往“前”移动一页。 按「ctrl」+「u」：屏幕往“后”移动半页。 按「ctrl」+「d」：屏幕往“前”移动半页。 按数字「0」：移到文章的开头。 按「G」：移动到文章的最后。 按「$」：移动到光标所在行的“行尾”。 按「^」：移动到光标所在行的“行首” 按「w」：光标跳到下个字的开头 按「e」：光标跳到下个字的字尾 按「b」：光标回到上个字的开头 按「#l」：光标移到该行的第#个位置，如：5l,56l。&lt;/p&gt;
+&lt;p&gt;4）. 删除文字 「x」：每按一次，删除光标所在位置的“后面”一个字符。 「#x」：例如，「6x」表示删除光标所在位置的“后面”6个字符。 「X」：大写的X，每按一次，删除光标所在位置的“前面”一个字符。 「#X」：例如，「20X」表示删除光标所在位置的“前面”20个字符。 「dd」：删除光标所在行。 「#dd」：从光标所在行开始删除#行&lt;/p&gt;
+&lt;p&gt;5）. 复制 「yw」：将光标所在之处到字尾的字符复制到缓冲区中。 「#yw」：复制#个字到缓冲区 「yy」：复制光标所在行到缓冲区。 「#yy」：例如，「6yy」表示拷贝从光标所在的该行“往下数”6行文字。 「p」：将缓冲区内的字符贴到光标所在位置。注意：所有与“y”有关的复制命令都必须与“p”配合才能完成复制与粘贴功能。&lt;/p&gt;
+&lt;p&gt;6）. 替换 「r」：替换光标所在处的字符。 「R」：替换光标所到之处的字符，直到按下「ESC」键为止。&lt;/p&gt;
+&lt;p&gt;7）. 回复上一次操作 「u」：如果您误执行一个命令，可以马上按下「u」，回到上一个操作。按多次“u”可以执行多次回复。&lt;/p&gt;
+&lt;p&gt;8）. 更改 「cw」：更改光标所在处的字到字尾处 「c#w」：例如，「c3w」表示更改3个字 9）. 跳至指定的行 「ctrl」+「g」列出光标所在行的行号。 「#G」：例如，「15G」，表示移动光标至文章的第15行行首。&lt;/p&gt;
+&lt;p&gt;4、Last line mode下命令简介 在使用「last line mode」之前，请记住先按「ESC」键确定您已经处于「command mode」下后，再按「：」冒号即可进入「last line mode」。&lt;/p&gt;
+&lt;p&gt;A) 列出行号 「set nu」：输入「set nu」后，会在文件中的每一行前面列出行号。&lt;/p&gt;
+&lt;p&gt;B) 跳到文件中的某一行 「#」：「#」号表示一个数字，在冒号后输入一个数字，再按回车键就会跳到该行了，如输入数字15，再回车，就会跳到文章的第15行。&lt;/p&gt;
+&lt;p&gt;C) 查找字符 「/关键字」：先按「/」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往后寻找到您要的关键字为止。 「?关键字」：先按「?」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往前寻找到您要的关键字为止。&lt;/p&gt;
+&lt;p&gt;D) 保存文件 「w」：在冒号输入字母「w」就可以将文件保存起来。&lt;/p&gt;
+&lt;p&gt;E) 离开vi 「q」：按「q」就是退出，如果无法离开vi，可以在「q」后跟一个「!」强制离开vi。 「qw」：一般建议离开时，搭配「w」一起使用，这样在退出的时候还可以保存文件。&lt;/p&gt;
+&lt;p&gt;5、vi命令列表&lt;/p&gt;
+&lt;p&gt;1、下表列出命令模式下的一些键的功能： h 左移光标一个字符 l 右移光标一个字符 k 光标上移一行 j 光标下移一行 ^ 光标移动至行首 0 数字“0”，光标移至文章的开头 G 光标移至文章的最后 $ 光标移动至行尾 Ctrl+f 向前翻屏 Ctrl+b 向后翻屏 Ctrl+d 向前翻半屏 Ctrl+u 向后翻半屏 i 在光标位置前插入字符 a 在光标所在位置的后一个字符开始增加 o 插入新的一行，从行首开始输入 ESC 从输入状态退至命令状态 x 删除光标后面的字符 #x 删除光标后的＃个字符 X (大写X)，删除光标前面的字符 #X 删除光标前面的#个字符 dd 删除光标所在的行 #dd 删除从光标所在行数的#行 yw 复制光标所在位置的一个字 #yw 复制光标所在位置的#个字 yy 复制光标所在位置的一行 #yy 复制从光标所在行数的#行 p 粘贴 u 取消操作 cw 更改光标所在位置的一个字 #cw 更改光标所在位置的#个字&lt;/p&gt;
+&lt;p&gt;2、下表列出行命令模式下的一些指令 w filename 储存正在编辑的文件为filename wq filename 储存正在编辑的文件为filename，并退出vi q! 放弃所有修改，退出vi set nu 显示行号 /或? 查找，在/后输入要查找的内容 n 与/或?一起使用，如果查找的内容不是想要找的关键字，按n或向后（与/联用）或向前（与?联用）继续查找，直到找到为止。&lt;/p&gt;
+&lt;p&gt;对于第一次用vi，有几点注意要提醒一下：&lt;/p&gt;
+&lt;p&gt;1、用vi打开文件后，是处于「命令行模式（command mode）」，您要切换到「插入模式（Insert mode）」才能够输入文字。&lt;/p&gt;
+&lt;p&gt;切换方法：在「命令行模式（command mode）」下按一下字母「i」就可以进入「插入模式（Insert mode）」，这时候你就可以开始输入文字了。&lt;/p&gt;
+&lt;p&gt;2、编辑好后，需从插入模式切换为命令行模式才能对文件进行保存，切换方法：按「ESC」键。&lt;/p&gt;
+&lt;p&gt;3、保存并退出文件：在命令模式下输入:wq即可！（别忘了wq前面的:）&lt;/p&gt;
+</content:encoded></item><item><title>阿里悟空服务下线</title><link>https://blog.ittst.com/posts/ali-goku-service-offline/</link><guid isPermaLink="true">https://blog.ittst.com/posts/ali-goku-service-offline/</guid><description>这篇文章介绍了阿里悟空服务在2016年10月31日下线的情况，以及基于该服务的phpwind移动版也随之结束。文章提到phpwind和discuz这两大社区论坛程序已经停止更新维护，暗示了社区论坛可能的衰落趋势。同时，文章探讨了个人草根站长未来可能不复存在的可能性，主要是因为网站开发和维护成本对非IT人员来说过高。</description><pubDate>Tue, 15 Nov 2016 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;阿里悟空服务宣布于2016年10月31号正式下线，基于阿里悟空的phpwind移动版，基本上也可以宣告死亡了。 实际上phpwind早在两年前已经停止更新维护，目前的社区论坛程序discuz也处于停止更新维护的状态，伴随了广大草根站长走过十年岁月的两大社区程序也算是完成了自己的使命。 一直对社交网络不死心的阿里也放弃了pw是不是意味着社区论坛就此消亡。或者说，在将来不再会有个人草根站长了？毕竟网站开发维护的成本对于非IT人员来讲实在太过于高昂&lt;/p&gt;
+</content:encoded></item><item><title>CentOS系统时间和时区查看以及修改的方法</title><link>https://blog.ittst.com/posts/centos-system-time-and-time-zone-viewing-and-modification-method/</link><guid isPermaLink="true">https://blog.ittst.com/posts/centos-system-time-and-time-zone-viewing-and-modification-method/</guid><description>这篇文章介绍了如何在CentOS系统中修改时间和时区。首先，文章说明了如何查看当前系统时间，并提供了具体的命令来设置新的日期和时间（例如，将日期设定为2013年3月4日，时间设定为上午10:38）。接着，文章讲解了如何查看和修改系统的时区，特别是如何将时区设置为亚洲/上海，并确认覆盖操作。最后，文章指导用户如何验证新的时区和时间设置是否正确。</description><pubDate>Mon, 14 Nov 2016 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;一、时间修改 远程连接到centos 或者直接登录系统&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看系统时间&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date -s 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改时间 看下面的例子&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date -s  03/04/2013
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;（将系统日期设定为2013年03月04日）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date -s  110:38
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;（将系统时间设定为上午 10:38）&lt;/p&gt;
+&lt;p&gt;二、时区修改&lt;/p&gt;
+&lt;p&gt;先查看时区&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date -R  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改时区： （将Asia/shanghai-上海时区写入当前时区）&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cp -f /usr/share/zoneinfo/Asia/Shanghai     /etc/localtime 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;提示是否覆盖,输入Y回车, 然后&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;date
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看时区和时间（CST,中国时区）&lt;/p&gt;
+</content:encoded></item></channel></rss>
