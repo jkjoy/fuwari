@@ -45,6 +45,8 @@ const jsonLd = {
   // TODO include cover image here
 }
 ---
+<link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
+<script src="https://artalk.loliko.cn/dist/Artalk.js" defer></script>
 <MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true}>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4">
@@ -129,18 +131,18 @@ const jsonLd = {
             </div>}
         </a>
     </div>
-<link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
-<script src="https://artalk.loliko.cn//dist/Artalk.js" defer></script>
-<div id="Comments"></div>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  Artalk.init({
-    el:        '#Comments', 
-    server:    'https://artalk.loliko.cn/', 
-    site:      'ittst', 
-  });
-    });
-</script>
+
+    <!-- Artalk评论系统 -->
+    <div id="Comments"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        Artalk.init({
+          el:        '#Comments', 
+          server:    'https://artalk.loliko.cn/', 
+          site:      'ittst', 
+        });
+      });
+    </script>
 </MainGridLayout>
 
 <style is:global>
