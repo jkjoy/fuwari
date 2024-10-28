@@ -129,8 +129,16 @@ const jsonLd = {
             </div>}
         </a>
     </div>
- <script data-isso="//isso.ittst.top/" src="//isso.ittst.top/js/embed.min.js"></script>
-<section id="isso-thread"></section>
+<link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
+<script src="https://artalk.loliko.cn//dist/Artalk.js"></script>
+<div id="Comments"></div>
+<script>
+  Artalk.init({
+    el:        '#Comments', 
+    server:    'https://artalk.loliko.cn/', 
+    site:      'ittst', 
+  })
+</script>
 </MainGridLayout>
 
 <style is:global>
