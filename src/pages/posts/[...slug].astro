@@ -133,11 +133,13 @@ const jsonLd = {
 <script src="https://artalk.loliko.cn//dist/Artalk.js" defer></script>
 <div id="Comments"></div>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
   Artalk.init({
     el:        '#Comments', 
     server:    'https://artalk.loliko.cn/', 
     site:      'ittst', 
-  })
+  });
+    });
 </script>
 </MainGridLayout>
 
