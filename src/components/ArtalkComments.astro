@@ -1,0 +1,27 @@
+---
+// 引入Artalk的CSS和JS文件
+---
+<link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
+<script src="https://artalk.loliko.cn/dist/Artalk.js" defer></script>
+
+<div id="Comments"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    Artalk.init({
+      el:        '#Comments', 
+      server:    'https://artalk.loliko.cn/', 
+      site:      'ittst', 
+    });
+  });
+
+  // PJAX页面加载完成后的回调函数
+  document.addEventListener('pjax:complete', function() {
+    // 重新初始化Artalk
+    Artalk.init({
+      el:        '#Comments', 
+      server:    'https://artalk.loliko.cn/', 
+      site:      'ittst', 
+    });
+  });
+</script>
