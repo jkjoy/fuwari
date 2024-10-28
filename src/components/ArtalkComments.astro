@@ -1,9 +1,7 @@
 ---
 // 引入Artalk的CSS和JS文件
 ---
-
 <div id="Comments"></div>
-
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     // 初始化Artalk
@@ -12,7 +10,6 @@
       server:    'https://artalk.loliko.cn/', 
       site:      'ittst', 
     });
-
     // 使用swup的contentReplaced事件
     if (typeof Swup !== 'undefined') {
       Swup.on('contentReplaced', function() {
