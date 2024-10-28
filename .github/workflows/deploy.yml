@@ -1,0 +1,36 @@
+name: Deploy Astro Site
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install -g pnpm
+        
+      - name: Install sharp
+        run: pnpm install && pnpm add sharp
+        
+      - name: Build site
+        run: pnpm build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ASTRO }}
+          PUBLISH_BRANCH: gh-pages # 推送到当前 gh-pages 分支
+          publish_dir: ./dist
+          commit_message: ${{ github.event.head_commit.message }}
