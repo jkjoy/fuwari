@@ -125,6 +125,8 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || 'cente
 		</script>
 
 		<slot name="head"></slot>
+        <link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
+        <script src="https://artalk.loliko.cn/dist/Artalk.js" defer></script>
 
 		<link rel="stylesheet" href="https://cdn.staticfile.net/KaTeX/0.16.9/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 
@@ -156,6 +158,9 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || 'cente
 		--hue: var(--configHue);
 		--page-width: 75rem;
 	}
+	.atk-copyright {
+        display: none !important;
+    }
 </style>
 <style is:global define:vars={{ bannerOffset }}>
 @tailwind components;
