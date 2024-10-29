@@ -5,19 +5,20 @@ const { site, server } = Astro.props;
 <link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
 <script src="https://artalk.loliko.cn/dist/Artalk.js"></script>
 <div id="Comments"></div>
-<script>
-document.addEventListener('astro:before-swap', () => {
+<script is:inline>
+ function initializeArtalk(document) {
   Artalk.init({
     el:        '#Comments', 
     server:    {server}, 
     site:      {site}, 
   });
-    });
-document.addEventListener('astro:before-swap', () => {    
-    Artalk.init({
-    el:        '#Comments', 
-    server:    {server}, 
-    site:      {site}, 
+    }
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeArtalk(document);
   });
-    });
+
+  document.addEventListener('astro:before-swap', event => {
+    // Pass the incoming document to initialize Artalk on it
+    initializeArtalk(event.newDocument);
+  });
 </script>
