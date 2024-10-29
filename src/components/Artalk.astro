@@ -18,7 +18,19 @@ const { site, server } = Astro.props;
   });
 
   document.addEventListener('astro:before-swap', event => {
-    // Pass the incoming document to initialize Artalk on it
+    // 自定义交换实现
+    event.swap = () => {
+      diff(document, event.newDocument);
+    };
+
+    // 初始化 Artalk
     initializeArtalk(event.newDocument);
   });
+
+  function diff(oldDocument, newDocument) {
+    // 自定义的 diff 实现
+    // 例如，比较两个文档的全部内容
+    console.log('Custom swap implementation');
+    // 这里可以添加你自己的逻辑
+  }
 </script>
