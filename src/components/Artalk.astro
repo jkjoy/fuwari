@@ -42,18 +42,4 @@ const { site, server } = Astro.props;
     console.log('Custom swap implementation');
     // 这里可以添加你自己的逻辑，例如更新评论
   }
-
-  // 使用 MutationObserver（可选）
-  const observer = new MutationObserver(() => {
-    initializeArtalk(document);
-  });
-
-  // 开始观察
-  const commentsDiv = document.getElementById('Comments');
-  if (commentsDiv) {
-    observer.observe(commentsDiv, {
-      childList: true,
-      subtree: true
-    });
-  }
 </script>
