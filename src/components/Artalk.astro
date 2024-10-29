@@ -5,9 +5,8 @@ const { site, server } = Astro.props;
 <link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
 <script is:inline src="https://artalk.loliko.cn/dist/Artalk.js"></script>
 <div id="Comments"></div>
-
 <script is:inline>
-  function initializeArtalk(document) {
+  function initializeArtalk() {
     try {
       Artalk.init({
         el: '#Comments',
@@ -19,27 +18,7 @@ const { site, server } = Astro.props;
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initializeArtalk(document);
+  document.addEventListener('astro:page-load', () => {
+    initializeArtalk();
   });
-
-  document.addEventListener('astro:before-swap', event => {
-    // 自定义交换实现
-    event.swap = () => {
-      diff(document, event.newDocument);
-    };
-
-    // 初始化 Artalk
-    const newDocument = event.newDocument;
-    const newCommentsDiv = newDocument.querySelector('#Comments');
-    if (newCommentsDiv) {
-      initializeArtalk(newDocument);
-    }
-  });
-
-  function diff(oldDocument, newDocument) {
-    // 自定义的 diff 实现
-    console.log('Custom swap implementation');
-    // 这里可以添加你自己的逻辑，例如更新评论
-  }
 </script>
