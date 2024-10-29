@@ -1,30 +1,23 @@
 ---
-
+const { site, server } = Astro.props;
 ---
-<style>
-  #Comments {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
 
-  #Comments.loaded {
-    opacity: 1;
-  }
-</style>
+<link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
+<script src="https://artalk.loliko.cn/dist/Artalk.js"></script>
 <div id="Comments"></div>
 <script>
-import Artalk from 'artalk';
-// 初始化 Artalk
-const initArtalk = () => {
-  const artalk = new Artalk({
-    el: '#Comments',
-    site: 'ittst',
-    server: 'https://artalk.loliko.cn',
+document.addEventListener('astro:before-swap', () => {
+  Artalk.init({
+    el:        '#Comments', 
+    server:    {server}, 
+    site:      {site}, 
   });
-
-  // 添加 loaded 类名以触发转场效果
-  document.getElementById('Comments').classList.add('loaded');
-};
-// 在页面加载完成后初始化 Artalk
-window.addEventListener('load', initArtalk);
+    });
+document.addEventListener('astro:before-swap', () => {    
+    Artalk.init({
+    el:        '#Comments', 
+    server:    {server}, 
+    site:      {site}, 
+  });
+    });
 </script>
