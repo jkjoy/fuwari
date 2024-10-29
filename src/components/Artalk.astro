@@ -1,23 +1,5 @@
 ---
-import Artalk from 'artalk';
-import { useEffect } from 'react';
 
-const { siteKey, siteName } = Astro.props;
-
-useEffect(() => {
-  const artalk = new Artalk({
-    el: '#Comments',
-    site: ittst,
-    server: 'https://artalk.loliko.cn',
-  });
-
-  // 添加 loaded 类名以触发转场效果
-  document.getElementById('artalk-container').classList.add('loaded');
-
-  return () => {
-    artalk.destroy();
-  };
-}, [siteKey, siteName]);
 ---
 <style>
   #Comments {
@@ -30,3 +12,19 @@ useEffect(() => {
   }
 </style>
 <div id="Comments"></div>
+<script is:inline>
+import Artalk from 'artalk';
+// 初始化 Artalk
+const initArtalk = () => {
+  const artalk = new Artalk({
+    el: '#Comments',
+    site: 'ittst',
+    server: 'https://artalk.loliko.cn',
+  });
+
+  // 添加 loaded 类名以触发转场效果
+  document.getElementById('Comments').classList.add('loaded');
+};
+// 在页面加载完成后初始化 Artalk
+window.addEventListener('load', initArtalk);
+</script>
