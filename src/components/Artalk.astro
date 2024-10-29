@@ -9,8 +9,8 @@ const { site, server } = Astro.props;
  function initializeArtalk(document) {
   Artalk.init({
     el:        '#Comments', 
-    server:    {server}, 
-    site:      {site}, 
+    server:    'https://atalk.loliko.cn', 
+    site:      'ittst', 
   });
     }
   document.addEventListener('DOMContentLoaded', () => {
