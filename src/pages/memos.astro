@@ -6,7 +6,7 @@ import { getEntry } from 'astro:content'
 import { i18n } from '../i18n/translation'
 import I18nKey from '../i18n/i18nKey'
 import Markdown from '@components/misc/Markdown.astro'
-
+import Twikoo from '../../components/Memos.astro'
 const aboutPost = await getEntry('spec', 'about')
 
 const { Content } = await aboutPost.render()
@@ -15,23 +15,7 @@ const { Content } = await aboutPost.render()
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
         <div class="card-base z-10 px-9 py-6 relative w-full ">
             <Markdown class="mt-2">
-<div id="bber"></div>
-<script type="module" src="https://immmmm.com/emaction.js?v=230811"></script>
-<script src="https://fastly.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://fastly.jsdelivr.net/gh/Tokinx/ViewImage/view-image.min.js"></script>
-<script src="https://fastly.jsdelivr.net/gh/Tokinx/Lately/lately.min.js"></script>
-<script src="https://cdn.staticfile.org/twikoo/1.6.39/twikoo.all.min.js"></script>
-<script type="text/javascript">
-  var bbMemos = {
-    memos : 'https://memos.ittst.top/',//修改为自己部署 Memos 的网址，末尾有 / 斜杠
-    limit : '',//默认每次显示 10 条
-    creatorId:'2' ,//早期默认为 101 用户，新安装是 1； https://demo.usememos.com/u/101
-    domId: '',//默认为 bber
-    twiEnv:'https://t.ittst.com',//启开 twikoo 评论，默认 https://metk.edui.fun/
-  }
-</script>
-<script src="https://immmmm.com/bb-lmm-mk.js?v=230811"></script>
-
+               <Memos />
             </Markdown>
         </div>
     </div>
