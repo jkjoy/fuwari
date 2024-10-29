@@ -13,7 +13,7 @@ import PostMetadata from '../../components/PostMeta.astro'
 import ImageWrapper from '../../components/misc/ImageWrapper.astro'
 import { profileConfig, siteConfig } from '../../config'
 import { formatDateToYYYYMMDD } from '../../utils/date-utils'
-import Artalk from '../../components/Artalk.astro'
+import Twikoo from '../../components/Twikoo.astro'
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('posts', ({ data }) => {
@@ -108,8 +108,6 @@ const jsonLd = {
 
         </div>
     </div>
-    <!-- 使用ArtalkComments组件 -->
-    <Artalk />
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
         <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}
            class:list={["w-full font-bold overflow-hidden active:scale-95", {"pointer-events-none": !entry.data.nextSlug}]}>
@@ -131,6 +129,8 @@ const jsonLd = {
             </div>}
         </a>
     </div>
+        <!-- 使用Twikoo组件 -->
+    <Twikoo />
 </MainGridLayout>
 
 <style is:global>

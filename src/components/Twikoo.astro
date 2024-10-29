@@ -1,0 +1,12 @@
+---
+const { site, server } = Astro.props;
+---
+
+<div id="tcomment"></div>
+<script is:inline src="https://cdn.jkjoy.cn/twikoo/twikoo.all.min.js"></script>
+<script is:inline>
+twikoo.init({
+  envId: 'https://t.ittst.com', 
+  el: '#tcomment', 
+})
+</script>
