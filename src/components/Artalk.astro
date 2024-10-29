@@ -6,13 +6,18 @@ const { site, server } = Astro.props;
 <script is:inline src="https://artalk.loliko.cn/dist/Artalk.js"></script>
 <div id="Comments"></div>
 <script is:inline>
- function initializeArtalk(document) {
-  Artalk.init({
-    el:        '#Comments', 
-    server:    'https://artalk.loliko.cn', 
-    site:      'ittst', 
-  });
+  function initializeArtalk(document) {
+    try {
+      Artalk.init({
+        el: '#Comments',
+        server: 'https://artalk.loliko.cn', 
+        site: 'ittst',
+      });
+    } catch (error) {
+      console.error('Artalk initialization failed:', error);
     }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initializeArtalk(document);
   });
@@ -24,13 +29,27 @@ const { site, server } = Astro.props;
     };
 
     // 初始化 Artalk
-    initializeArtalk(event.newDocument);
+    const newDocument = event.newDocument;
+    const newCommentsDiv = newDocument.querySelector('#Comments');
+    if (newCommentsDiv) {
+      initializeArtalk(newDocument);
+    }
   });
 
   function diff(oldDocument, newDocument) {
     // 自定义的 diff 实现
-    // 例如，比较两个文档的全部内容
     console.log('Custom swap implementation');
-    // 这里可以添加你自己的逻辑
+    // 这里可以添加你自己的逻辑，例如更新评论
   }
+
+  // 使用 MutationObserver（可选）
+  const observer = new MutationObserver(() => {
+    initializeArtalk(document);
+  });
+
+  // 开始观察
+  observer.observe(document.getElementById('Comments'), {
+    childList: true,
+    subtree: true
+  });
 </script>
