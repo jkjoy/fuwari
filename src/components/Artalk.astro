@@ -3,7 +3,7 @@ const { site, server } = Astro.props;
 ---
 
 <link href="https://artalk.loliko.cn/dist/Artalk.css" rel="stylesheet">
-<script src="https://artalk.loliko.cn/dist/Artalk.js"></script>
+<script is:inline src="https://artalk.loliko.cn/dist/Artalk.js"></script>
 <div id="Comments"></div>
 <script is:inline>
  function initializeArtalk(document) {
